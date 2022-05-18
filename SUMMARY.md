@@ -10,3 +10,8 @@
   * [Как отправлять сообщения Celery удаленному воркеру](ocheredi-zadach/celery/kak-otpravlyat-soobsheniya-celery-udalennomu-vorkeru.md)
   * [Масштабирование Celery — отправка задач на удаленные машины](ocheredi-zadach/celery/masshtabirovanie-celery-otpravka-zadach-na-udalennye-mashiny.md)
   * [Запуск Celery в Windows 10](ocheredi-zadach/celery/zapusk-celery-v-windows-10.md)
+
+## win32api
+
+* [Печать win32](win32api/pechat-win32/README.md)
+  * [Win32 как распечатать?](win32api/pechat-win32/win32-kak-raspechatat.md)
