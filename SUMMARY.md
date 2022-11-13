@@ -15,3 +15,8 @@
 
 * [Печать win32](win32api/pechat-win32/README.md)
   * [Win32 как распечатать?](win32api/pechat-win32/win32-kak-raspechatat.md)
+
+## Django
+
+* [Django models](django/django-models/README.md)
+  * [Добавление к классам](django/django-models/dobavlenie-k-klassam.md)
