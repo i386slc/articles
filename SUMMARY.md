@@ -24,3 +24,5 @@
   * [Сила Q-объектов Django](django/django-query/sila-q-obektov-django.md)
   * ["Добавление" объектов Q в Django](django/django-query/dobavlenie-obektov-q-v-django.md)
   * [Как динамически фильтровать queryset](django/django-query/kak-dinamicheski-filtrovat-queryset.md)
+* [Django формы](django/django-formy/README.md)
+  * [Как использовать Django Widget Tweaks](django/django-formy/kak-ispolzovat-django-widget-tweaks.md)
