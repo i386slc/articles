@@ -1,5 +1,13 @@
 # Как использовать Django Widget Tweaks
 
+{% hint style="info" %}
+Ссылка на оригинальную статью: [How to Use Django Widget Tweaks](https://simpleisbetterthancomplex.com/2015/12/04/package-of-the-week-django-widget-tweaks.html)
+
+Опубликовано: 4 декабря 2015
+
+Автор: [Vitor Freitas](https://simpleisbetterthancomplex.com/about/)
+{% endhint %}
+
 Когда дело доходит до создания форм, [Django Forms](https://docs.djangoproject.com/en/1.9/topics/forms/) может быть очень удобным. Если ваше приложение позволяет конечному пользователю вводить данные, настоятельно рекомендуется делать это с помощью встроенных форм Django. Он автоматизирует большой объем работы, а также обеспечит действительно стабильную и безопасную функциональность.
 
 В двух словах, Django обрабатывает три отдельные части работы, связанной с формами:

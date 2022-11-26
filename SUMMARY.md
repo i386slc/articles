@@ -18,11 +18,13 @@
 
 ## Django
 
-* [Django models](django/django-models/README.md)
-  * [Добавление к классам](django/django-models/dobavlenie-k-klassam.md)
-* [Django query](django/django-query/README.md)
-  * [Сила Q-объектов Django](django/django-query/sila-q-obektov-django.md)
-  * ["Добавление" объектов Q в Django](django/django-query/dobavlenie-obektov-q-v-django.md)
-  * [Как динамически фильтровать queryset](django/django-query/kak-dinamicheski-filtrovat-queryset.md)
+* [Django модели](django/django-modeli/README.md)
+  * [Добавление к классам](django/django-modeli/dobavlenie-k-klassam.md)
+* [Django запросы (query)](django/django-zaprosy-query/README.md)
+  * [Сила Q-объектов Django](django/django-zaprosy-query/sila-q-obektov-django.md)
+  * ["Добавление" объектов Q в Django](django/django-zaprosy-query/dobavlenie-obektov-q-v-django.md)
+  * [Как динамически фильтровать queryset](django/django-zaprosy-query/kak-dinamicheski-filtrovat-queryset.md)
 * [Django формы](django/django-formy/README.md)
   * [Как использовать Django Widget Tweaks](django/django-formy/kak-ispolzovat-django-widget-tweaks.md)
+* [Django менеджеры](django/django-menedzhery/README.md)
+  * [Совет #11. Пользовательский менеджер с цепочками запросов](django/django-menedzhery/sovet-11.-polzovatelskii-menedzher-s-cepochkami-zaprosov.md)
