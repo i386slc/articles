@@ -88,3 +88,84 @@ Poll.objects.filter(question__contains='dinner').filter(question__contains='meal
 ```
 
 ## Динамическое построение запросов
+
+Теперь вполне вероятно, что вы хотите динамически создавать запросы, подобные приведенным выше. Это еще одно место, где объекты Q могут сэкономить много времени... например, при создании **поисковых систем** или **фасетных браузеров**, где интерфейс позволяет пользователю постепенно **накапливать поисковые фильтры**.
+
+Один из способов справиться с этой ситуацией — создать **списки объектов Q**, а затем **объединить их вместе** с помощью python методов [operator](http://docs.python.org/library/operator.html#operator.and\_) и [reduce](http://docs.python.org/library/functions.html#reduce):
+
+```python
+>>> import operator
+
+# создать список объектов Q
+>>> mylist = [Q(question__contains='dinner'), Q(question__contains='meal')]
+
+# OR
+>>> Poll.objects.filter(reduce(operator.or_, mylist))
+[<Poll: what shall I make **for** dinner>, <Poll: what **is** your favourite meal?>]
+
+# AND
+>>> Poll.objects.filter(reduce(operator.and_, mylist))
+[]
+```
+
+Теперь, если вы создаете запрос динамически, вы, вероятно, не будете знать заранее, какие фильтры вам нужно использовать. Скорее всего, вместо этого вам придется **программно генерировать список объектов Q** из списка строк, представляющих запросы к вашим моделям:
+
+```python
+# строковое представление наших запросов
+>>> predicates = [('question__contains', 'dinner'), ('question__contains', 'meal')]
+
+# создайте список объектов Q и выполните запросы, как указано выше...
+>>> q_list = [Q(x) **for** x **in** predicates]
+>>> Poll.objects.filter(reduce(operator.or_, q_list))
+[<Poll: what shall I make **for** dinner>, <Poll: what **is** your favourite meal?>]
+>>> Poll.objects.filter(reduce(operator.and_, q_list))
+[]
+
+# теперь давайте добавим еще один фильтр к строкам запроса..
+>>> predicates.append(('pub_date', datetime.date.today()))
+>>> predicates
+[('question__contains', 'dinner'), ('question__contains', 'meal'), ('pub_date', datetime.date(2010, 7, 19))]
+
+# .. и результаты тоже изменятся
+>>> q_list = [Q(x) **for** x **in** predicates]
+>>> Poll.objects.filter(reduce(operator.or_, q_list))
+[<Poll: what shall I make **for** dinner>, <Poll: what **is** your favourite meal?>, <Poll: how do you make omelettes?>]
+>>> Poll.objects.filter(reduce(operator.and_, q_list))
+[]
+```
+
+## Расширение запроса и объекты Q
+
+Используя синтаксис расширения запроса, вы обычно можете делать такие вещи, **как это**:
+
+```python
+>>> mydict = {'question__contains': 'omelette', 'pub_date' : datetime.date.today()}
+>>> Poll.objects.filter(**mydict)
+[<Poll: how do you make omelettes?>]
+```
+
+Здесь вы в основном **упорядочиваете операторы AND, которые создаются динамически** из некоторых строковых значений.
+
+Действительно крутая особенность django ORM заключается в том, что вы можете **продолжать делать** это даже при **использовании объектов Q**. Другими словами, вы можете делегировать все «обычные» вещи механизму расширения запроса, вместо этого прибегая к объектам Q всякий раз, когда вам нужны более сложные запросы, такие как оператор **OR**.
+
+Например (не забывайте ставить словарь всегда на вторую позицию):\*\*\*\*
+
+```python
+# OR плюс расширение запроса
+>>> Poll.objects.filter(reduce(operator.or_, q_list), **mydict)
+[<Poll: how do you make omelettes?>]
+# AND плюс расширение запроса
+>>> Poll.objects.filter(reduce(operator.and_, q_list), **mydict)
+[]
+```
+
+В **первом** случае у нас есть один результат только потому, что, хотя ограничение **OR** для **q\_list** само по себе соответствовало бы большему количеству вещей, _**mydict**_** разбивается на ряд ограничений, связанных с AND, что делает \[**_**Poll: how do you make omelettes?**_**] единственным подходящим объектом**. Во **втором**\*\* случае нет вообще никаких результатов просто потому, что мы запрашиваем экземпляр опроса, который одновременно удовлетворяет всем ограничениям (которых не существует)!
+
+## Другие ресурсы
+
+Это все на данный момент! Как я уже сказал, я нашел **довольно много очень хороших постов** на эту тему в Интернете, и я настоятельно рекомендую вам **ознакомиться с ними**, чтобы получить более четкое представление о том, как работают Q-объекты.
+
+* [Добавление объектов Q в Django](http://bradmontgomery.blogspot.com/2009/06/adding-q-objects-in-django.html). Показывает другой метод объединения объектов Q с помощью `'add'`.
+* [Совет по сложным запросам Django](http://jehiah.cz/archive/django-q-objects). Обсуждается, как должны быть написаны запросы, чтобы создать ожидаемый код MySQL.
+* [Сила Q](http://www.djangozen.com/blog/the-power-of-q). Действительно хорошая статья, в которой рассматриваются все основные особенности объектов Q (и, или, отрицание, выбор)
+* [Динамические запросы Django (или почему kwargs — ваш друг)](http://www.nomadjourney.com/2009/04/dynamic-django-queries-with-kwargs/). Обзор динамических запросов с помощью django
