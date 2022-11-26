@@ -210,3 +210,104 @@ class UserFilter(django_filters.FilterSet):
 <figure><img src="../../.gitbook/assets/filter7.png" alt=""><figcaption></figcaption></figure>
 
 Для получения более подробной информации об опциях поля, пожалуйста, обратитесь к [официальной документации django-filter](https://django-filter.readthedocs.io/).
+
+## Улучшение шаблона
+
+На самом деле это дополнение к посту. В конце концов, форма **filter.form**, к которой мы обращаемся в шаблоне, — это обычная форма Django. Но если вам интересно, как сделать его красивее, вот что мы можем сделать:
+
+```django
+{% raw %}
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+  <form method="get">
+    <div class="well">
+      <h4 style="margin-top: 0">Filter</h4>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.username.label_tag }}
+          {% render_field filter.form.username class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.first_name.label_tag }}
+          {% render_field filter.form.first_name class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.last_name.label_tag }}
+          {% render_field filter.form.last_name class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.year_joined.label_tag }}
+          {% render_field filter.form.year_joined class="form-control" %}
+        </div>
+        <div class="form-group col-sm-8 col-md-6">
+          {{ filter.form.groups.label_tag }}
+          <div>
+            {% for choice in filter.form.groups %}
+              <label class="checkbox-inline">
+                {{ choice.tag }} {{ choice.choice_label }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Search
+      </button>
+    </div>
+  </form>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Date joined</th>
+        <th>Groups</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in filter.qs %}
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.date_joined }}</td>
+          <td>
+            {% for group in user.groups.all %}
+              {{ group }}
+            {% empty %}
+              <em class="text-muted">No group</em>
+            {% endfor %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No data</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% endraw %}
+```
+
+Результат:
+
+<figure><img src="../../.gitbook/assets/filter8.png" alt=""><figcaption></figcaption></figure>
+
+Обратите внимание, что тег `{% render_field %}` доступен в приложении **django-widget-tweaks**. Если вы хотите узнать больше, как его использовать, посмотрите этот пост: [Пакет недели: настройки виджета Django](https://simpleisbetterthancomplex.com/2015/12/04/package-of-the-week-django-widget-tweaks.html).
+
+## Выводы
+
+Вот и все! Я просто хотел немного рассказать об этом пакете. Вы можете сделать с ним гораздо больше. Он также хорошо интегрируется с **Django Rest Framework**.
+
+Код, используемый в этом руководстве, доступен на GitHub [simple-django-filter](https://github.com/sibtc/simple-django-filter).
+
+Пакет **django-filter**:
+
+* [django-filter documentation](https://django-filter.readthedocs.io/)
+* [django-filter on GitHub](https://github.com/carltongibson/django-filter)
