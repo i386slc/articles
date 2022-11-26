@@ -22,3 +22,4 @@
   * [Добавление к классам](django/django-models/dobavlenie-k-klassam.md)
 * [Django query](django/django-query/README.md)
   * [Сила Q-объектов Django](django/django-query/sila-q-obektov-django.md)
+  * ["Добавление" объектов Q в Django](django/django-query/dobavlenie-obektov-q-v-django.md)
