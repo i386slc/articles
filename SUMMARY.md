@@ -30,5 +30,6 @@
   * [Детальное понимание модельных Django formets и их расширенное использование](django/django-formy/detalnoe-ponimanie-modelnykh-django-formets-i-ikh-rasshirennoe-ispolzovanie.md)
   * [Formsets и Inlines](django/django-formy/formsets-i-inlines.md)
   * [Представления на основе классов Django с несколькими встроенными наборами форм](django/django-formy/predstavleniya-na-osnove-klassov-django-s-neskolkimi-vstroennymi-naborami-form.md)
+  * [Объяснить фабрику встроенных форм Django на примере?](django/django-formy/obyasnit-fabriku-vstroennykh-form-django-na-primere.md)
 * [Django менеджеры](django/django-menedzhery/README.md)
   * [Совет #11. Пользовательский менеджер с цепочками запросов](django/django-menedzhery/sovet-11.-polzovatelskii-menedzher-s-cepochkami-zaprosov.md)
