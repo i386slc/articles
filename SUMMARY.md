@@ -28,5 +28,6 @@
   * [Как использовать Django Widget Tweaks](django/django-formy/kak-ispolzovat-django-widget-tweaks.md)
   * [Учебник по Django Formsets — создание динамических форм с помощью Htmx](django/django-formy/uchebnik-po-django-formsets-sozdanie-dinamicheskikh-form-s-pomoshyu-htmx.md)
   * [Детальное понимание модельных Django formets и их расширенное использование](django/django-formy/detalnoe-ponimanie-modelnykh-django-formets-i-ikh-rasshirennoe-ispolzovanie.md)
+  * [Formsets и Inlines](django/django-formy/formsets-i-inlines.md)
 * [Django менеджеры](django/django-menedzhery/README.md)
   * [Совет #11. Пользовательский менеджер с цепочками запросов](django/django-menedzhery/sovet-11.-polzovatelskii-menedzher-s-cepochkami-zaprosov.md)
