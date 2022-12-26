@@ -140,7 +140,7 @@ DEBUG = False # Production Mode
 
 DEBUG = False # Production Mode
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Здесь
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Вот здесь
 STATIC_URL = '/static/'
 
 ```
@@ -154,3 +154,41 @@ python manage.py collectstatic
 Затем создается папка **"static"**, а папки **«css»**, **«fonts»**, **«img»** и **«js»** в папке **«admin»** и **«myapp.css»** в папке **«myapp»** собираются в папку **"static"**, как показано ниже, но, как мы видим, **«core.js»** в папке **«core»** не собирается в папку **"static"**, как показано ниже, потому что, как я уже говорил, команда «`python manage.py collectstatic`» собирает статические файлы **из приложений и admin** в проекте django, но папка **«core»** с файлом **«settings.py»** не является приложением и админкой. Вот почему **«core.js»** в папке **«core»** не собирается в папку **"static"**:
 
 <figure><img src="../../.gitbook/assets/static_root_collect.png" alt=""><figcaption></figcaption></figure>
+
+Но есть способ собрать **«core.js»** из папки **«core»** в папку **«static»**. Для этого нам нужно использовать **"STATICFILES\_DIRS"**, а затем установить `"os.path.join(BASE_DIR, 'core/static')"`, который является `"C:\Users\kai\django-project\core\static"` в Windows в моем случае в "**STATICFILES\_DIRS**", как показано ниже:
+
+```python
+# "core/settings.py"
+
+DEBUG = False
+
+STATICFILES_DIRS = [ # Вот здесь
+    os.path.join(BASE_DIR, 'core/static')
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+```
+
+Теперь снова запускаем команду ниже:
+
+```bash
+python manage.py collectstatic 
+```
+
+Затем введите **«yes»**, затем нажмите **«Enter»**, чтобы перезаписать существующую папку **"static"**:
+
+> Вы запросили сбор статических файлов в месте назначения, как указано в ваших настройках:
+>
+> C:\Users\kai\django-project\static
+>
+> Это перезапишет существующие файлы! Вы уверены, что хотите это сделать?
+>
+> Введите «yes», чтобы продолжить, или «no», чтобы отменить: yes
+
+Теперь «`core.js`» в папке «**core**» собирается в папку «**static**», как показано ниже:
+
+<figure><img src="../../.gitbook/assets/static_root_core.png" alt=""><figcaption></figcaption></figure>
+
+### \<STATIC\_URL>
