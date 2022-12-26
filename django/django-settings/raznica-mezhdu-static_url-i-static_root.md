@@ -111,3 +111,46 @@ STATIC_ROOT = '/opt/web/project/static_files'
 
 ### \<STATIC\_ROOT>
 
+«**STATIC\_ROOT**» устанавливает **абсолютный путь к папке, в которой хранятся статические файлы**, используемые для приложений и администратора в проекте django, и эта команда ниже **создает папку и собирает статические файлы из приложений и админки** в проекте django в папку (\* Установка «**STATIC\_ROOT**» _**никогда не влияет**_ на статический URL-адрес файла):
+
+```bash
+python manage.py collectstatic 
+```
+
+И «**STATIC\_ROOT**» работает <mark style="color:red;">**только**</mark> в **production** режиме, который имеет значение «`DEBUG = False`», как показано ниже:
+
+```python
+# "core/settings.py"
+
+DEBUG = False # Production Mode
+```
+
+Сейчас у нас есть проект django со **статическими файлами «core.js» в папке «core»**, которая находится «`settings.py`», и «`myapp.css`» - в папке **«myapp»**, которая является приложением **"app"**, как показано ниже:
+
+<figure><img src="../../.gitbook/assets/static_root_1.png" alt=""><figcaption></figcaption></figure>
+
+И папки «**css**», «**fonts**», «**img**» и «**js**» в папке «**admin**» в папке «**venv**», как показано ниже. \* Я использую виртуальную среду с именем «**venv**» для этого проекта django, поэтому в ней находятся статические файлы для «**admin**», а **относительный путь к папке «admin»** — `"venv/lib/python3.8/site-packages/django/contrib/admin/static/admin"`:
+
+<figure><img src="../../.gitbook/assets/static_root_venv (1).png" alt=""><figcaption></figcaption></figure>
+
+Затем мы устанавливаем `"os.path.join(BASE_DIR, 'static')"`, который в моем случае является `«C:\Users\kai\django-project\static»` в Windows, на «**STATIC\_ROOT**». Кроме того, мы установили «**False**» в «**DEBUG**», потому что «**STATIC\_ROOT**» работает только в **production** режиме, как я уже говорил:
+
+```python
+# "core/settings.py"
+
+DEBUG = False # Production Mode
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Здесь
+STATIC_URL = '/static/'
+
+```
+
+Теперь мы запускаем команду ниже:
+
+```bash
+python manage.py collectstatic 
+```
+
+Затем создается папка **"static"**, а папки **«css»**, **«fonts»**, **«img»** и **«js»** в папке **«admin»** и **«myapp.css»** в папке **«myapp»** собираются в папку **"static"**, как показано ниже, но, как мы видим, **«core.js»** в папке **«core»** не собирается в папку **"static"**, как показано ниже, потому что, как я уже говорил, команда «`python manage.py collectstatic`» собирает статические файлы **из приложений и admin** в проекте django, но папка **«core»** с файлом **«settings.py»** не является приложением и админкой. Вот почему **«core.js»** в папке **«core»** не собирается в папку **"static"**:
+
+<figure><img src="../../.gitbook/assets/static_root_collect.png" alt=""><figcaption></figcaption></figure>
