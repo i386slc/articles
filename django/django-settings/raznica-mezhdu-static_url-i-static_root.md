@@ -192,3 +192,88 @@ python manage.py collectstatic
 <figure><img src="../../.gitbook/assets/static_root_core.png" alt=""><figcaption></figcaption></figure>
 
 ### \<STATIC\_URL>
+
+Далее я объясню о "**STATIC\_URL**".
+
+«**STATIC\_URL**» устанавливает **первую** **часть каталога URL-адреса статического файла** между **частью хоста и файловой частью** URL-адреса статического файла, как показано ниже (\* Настройка «**STATIC\_URL**» **никогда не влияет на абсолютный путь к папке**, в которой статические файлы используются для приложений и admin в проекте django хранятся):
+
+```
+       |     Host      |   Directory    |  File  |
+       |               |Front |  Back   |        |
+        <-------------> <----> <-------> <------>      
+https://www.example.com/static/admin/css/base.css
+```
+
+Например, мы устанавливаем для `'/static/'` значение "**STATIC\_URL**", как показано ниже (\*"**STATIC\_URL**" работает как в режиме разработки **development**, который имеет значение "`DEBUG = True`", так и в рабочем режиме **production**, который имеет значение "`DEBUG = False`"):
+
+```python
+# "core/settings.py"
+
+DEBUG = False
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'core/static')
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/' # Вот здесь
+
+```
+
+Затем откройте **Django Admin**:
+
+<figure><img src="../../.gitbook/assets/django_admin.png" alt=""><figcaption></figcaption></figure>
+
+Затем нажмите «**F12**», чтобы открыть «**Developer Tools**», чтобы **проверить ресурсы**, используемые для текущей открытой страницы администратора Django, из «**Sources**», и есть статические файлы для «**admin**», которые мы только что собрали в папку **"static"**:
+
+<figure><img src="../../.gitbook/assets/django_admin_sources.png" alt=""><figcaption></figcaption></figure>
+
+Затем наведите указатель мыши на «**base.css**» в «**css**», чтобы проверить URL-адрес:
+
+<figure><img src="../../.gitbook/assets/django_admin_css.png" alt=""><figcaption></figcaption></figure>
+
+Как мы видим, мы можем установить первую часть каталога **"static"**:
+
+```
+                      Здесь  
+                     <------>
+http://localhost:8000/static/admin/css/base.css
+```
+
+И этот URL-адрес ниже в этом случае «**www.example.com**» с «**https**»:
+
+```
+                        Здесь
+    　　　　　　　　　　　<------>
+https://www.example.com/static/admin/css/base.css
+```
+
+И мы можем изменить часть первого каталога **«static»** на **«hello/world»**.
+
+Итак, просто измените «**STATIC\_URL**» с **«/static/»** на **«/hello/world/»**, как показано ниже:
+
+```python
+# "core/settings.py"
+
+DEBUG = False
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'core/static')
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/hello/world/' # Вот здесь
+
+```
+
+Затем обновите страницу администратора Django:
+
+<figure><img src="../../.gitbook/assets/django_admin_hello.png" alt=""><figcaption></figcaption></figure>
+
+Затем часть переднего каталога **«static»** заменяется на **«hello/world»**, как показано ниже:
+
+```
+                         Здесь  
+                     <----------->
+http://localhost:8000/hello/world/admin/css/base.css
+```
