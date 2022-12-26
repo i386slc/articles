@@ -35,3 +35,5 @@
   * [Работа с вложенными формами в Django](django/django-formy/rabota-s-vlozhennymi-formami-v-django.md)
 * [Django менеджеры](django/django-menedzhery/README.md)
   * [Совет #11. Пользовательский менеджер с цепочками запросов](django/django-menedzhery/sovet-11.-polzovatelskii-menedzher-s-cepochkami-zaprosov.md)
+* [Django settings](django/django-settings/README.md)
+  * [Разница между STATIC\_URL и STATIC\_ROOT](django/django-settings/raznica-mezhdu-static\_url-i-static\_root.md)
