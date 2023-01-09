@@ -1,5 +1,13 @@
 # Настройка Geodjango-GDAL для Windows 10
 
+{% hint style="info" %}
+Ссылка на оригинальную статью: [Geodjango-GDAL Setup Windows 10](https://www.pointsnorthgis.ca/blog/geodjango-gdal-setup-windows-10/)
+
+Опубликовано: ???
+
+Автор: [Points North GIS](https://www.pointsnorthgis.ca/)
+{% endhint %}
+
 ## Вступление
 
 [GeoDjango](https://docs.djangoproject.com/en/3.0/ref/contrib/gis/) — это геопространственное расширение [Django](https://www.djangoproject.com/). **GeoDjango** — это дополнение к мощной среде веб-разработки, которая позволяет интегрировать пространственные данные в веб-сайты и REST API. После того, как среда разработки настроена, этот мощный инструмент прост в освоении и использовании; однако заставить все работать в среде Windows 10 иногда может быть сложно. Если вы профессионал/энтузиаст ГИС, как и я, у вас, вероятно, есть несколько программ, использующих геопространственные библиотеки, такие как [GDAL](https://www.lfd.uci.edu/\~gohlke/pythonlibs/#gdal), которые периодически обновляются, чтобы не отставать от таких программ, как **QGIS**. Это может привести к проблемам при разработке с Django на том же компьютере, поскольку виртуальная среда Python может быть чувствительна к изменениям во внешних библиотеках ГИС. Следующее руководство расскажет нам, как настроить нашу среду разработки, чтобы мы могли начать работать с пространственными данными в GeoDjango/Django с включенными библиотеками Python **GDAL** и **OSGEO**. Надеемся, что этот процесс поможет новым пользователям быстро начать работу с GeoDjango и поможет существующим разработчикам GeoDjango выявить проблемные области, если ошибки библиотеки зависимостей начнут возникать после обновлений.
@@ -11,7 +19,7 @@
 * Настройка виртуальной среды Python
 * Установка Джанго
 * Установка GDAL Python
-* Создание проект Джанго
+* Создание проекта Джанго
 * BAT-файл GeoDjango
 * Изменение Django settings.py
 * Обновление файла Django GDAL (libgdal.py)
@@ -112,12 +120,132 @@ sqlparse   0.3.1
 
 ## Шаг 5. Установка GDAL Python
 
-## Шаг 6. Создание проект Джанго
+Теперь, когда виртуальная среда и Django готовы, мы можем добавить библиотеку абстракции геопространственных данных (**GDAL**) для Python. Самый последовательный способ сделать это — загрузить файл PIP Wheel (`.whl`) для вашей версии Python с сайта Кристофа Гольке [_Unofficial Windows Binaries for Python Extension Packages_](https://www.lfd.uci.edu/\~gohlke/pythonlibs/#gdal) (у вас может возникнуть соблазн использовать **pip install GDAL**; однако из моего прошлого это вряд ли сработает. Обязательно загрузите файл **.whl**, соответствующий вашей версии Python (например, **Python 3.7, Windows 64-Bit** => `GDAL‑3.1.2‑cp37‑cp37m‑win_amd64.whl`, `Python 3.8, Windows 64-Bit` => `GDAL‑3.1.2‑cp38‑cp38‑win_amd64.whl`). Для простоты переместите загруженный файл **.whl** в папку dev для упрощения доступа к командной строке и для дальнейшего использования. Используя командную строку с активированной виртуальной средой, используйте **pip** для установки **.whl:** `pip install GDAL-3.X.X-cp3X-cp3X-win_amd64.whl` или `pip install C:/path/to/GDAL‑3.X.X‑cp3X‑cp3X‑win_amd64.whl`
+
+Теперь библиотеки GDAL должны быть доступны через командную строку виртуальной среды Python. Вы можете протестировать их, активировав терминал Python с помощью командной строки: **python**. Командная строка python теперь активна, проверьте, доступны ли библиотеки **gdal**, введя `import gdal; import ogr; exit()`. Если ошибок импорта нет, вы можете начать программировать с помощью GDAL python!
+
+```powershell
+# Используйте следующие команды для установки GDAL
+# из загруженного файла .whl.
+(djangovenv) C:\dev>dir
+05/23/2020  10:42 AM    <DIR>          .
+05/23/2020  10:42 AM    <DIR>          ..
+05/23/2020  10:42 AM    <DIR>          djangovenv
+05/23/2020  10:42 AM    <DIR>          GDAL‑3.1.2‑cp38‑cp38‑win_amd64.whl
+(djangovenv) C:\dev>pip install GDAL‑3.1.2‑cp38‑cp38‑win_amd64.whl
+Processing c:\dev\gdal-3.1.2-cp38-cp38-win_amd64.whl
+Installing collected packages: GDAL
+Successfully installed GDAL-3.1.2
+(djangovenv) C:\dev>python
+Python 3.8.4 (tags/v3.8.4:d7c567b08f, Mar 10 2020, 10:41:24) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information
+>>>import gdal
+>>>import ogr
+>>>exit()
+(djangovenv) C:\dev>
+```
+
+## Шаг 6. Создание проекта Джанго
+
+Теперь мы собираемся создать новый проект Django, который создаст файл **settings.py**, который нам нужно будет обновить, чтобы убедиться, что GDAL правильно работает с Django, и даст нам платформу для тестирования GDAL и Django в среде Django.
+
+Запустить проект Django очень просто. При активной виртуальной среде Python "djangovenv" в командной строке введите `django-admin startproject geodjango`. Вы можете использовать любое название проекта вместо **geodjango**. Это создаст базовую папку проекта Django и структуру файлов, которые позволят вам начать создание приложения Django. Важно отметить, что на первом уровне проекта есть файл Python с именем **manage.py**. Активировав этот файл в виртуальной среде, мы можем давать команды приложению Django для разработки и тестирования. Теперь мы будем использовать командную строку **cd geodjango**, чтобы войти на верхний уровень этого каталога проекта.
+
+```powershell
+# Windows Command Prompt
+# Запустить проект Джанго
+(djangovenv) C:\dev>django-admin startproject geodjango
+# Переместиться в директорию проекта
+(djangovenv) C:\dev>cd geodjango
+(djangovenv) C:\dev\geodjango>
+```
 
 ## Шаг 7. BAT-файл GeoDjango
 
+Прежде чем мы продолжим изменять код GeoDjango, нам нужно сообщить системе Windows, где получить доступ к программе **GDAL**, установив переменные **PATH**. В противном случае Django/Python не сможет найти правильное место для выполнения программ/двоичных файлов GDAL.
+
+Мы собираемся создать файл **.bat**, который по сути представляет собой список командных подсказок, которые будут запускаться последовательно, вместо того, чтобы вводить их построчно. Файлы **BAT** хороши тем, что позволяют свести к минимуму ошибки ввода.
+
+В нашем проекте/папке/каталоге **geodjango** (или имени созданного вами проекта **geodjango**) мы будем использовать файловый браузер Windows Explorer для перехода к папке `C:\dev\geodjango`, щелкните правой кнопкой мыши и создайте новый текстовый файл, который называется **geodjango\_setup**. Щелкните правой кнопкой мыши файл **geodjango.txt** и измените расширение файла на **.bat**. Следуйте [этим инструкциям](https://www.howtogeek.com/205086/beginner-how-to-make-windows-show-file-extensions/), если вы не знаете, как изменить или просмотреть расширения файлов ваших документов.
+
+Откройте файл **geodjango\_setup.bat** в своем любимом текстовом редакторе, таком как встроенный в Windows Notepad или мой любимый [Notepad++](https://notepad-plus-plus.org/), и скопируйте фрагмент кода из [официальной документации GeoDjango](https://docs.djangoproject.com/en/3.0/ref/contrib/gis/install/#modify-windows-environment) или из приведенного ниже примера. Возможно, вам придется изменить строку 1 с ~~`set OSGEO4W_ROOT=C:\OSGeo4W`~~ на `set OSGEO4W_ROOT=C:\OSGeo4W64`, если у вас 64-разрядная система Windows. Вам также придется изменить версию Python в строке 2 с ~~`set PYTHON_ROOT=C:\Python3X`~~ на любую версию Python 3, которую вы установили, например, `set PYTHON_ROOT=C:\Python38` (см. анимацию ниже, где я нахожу версии **OSGEO** установлен и установлен Python, и соответствующим образом настройте параметры).
+
+```powershell
+set OSGEO4W_ROOT=C:\OSGeo4W
+set PYTHON_ROOT=C:\Python3X
+set GDAL_DATA=%OSGEO4W_ROOT%\share\gdal
+set PROJ_LIB=%OSGEO4W_ROOT%\share\proj
+set PATH=%PATH%;%PYTHON_ROOT%;%OSGEO4W_ROOT%\bin
+reg ADD "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v Path /t REG_EXPAND_SZ /f /d "%PATH%"
+reg ADD "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v GDAL_DATA /t REG_EXPAND_SZ /f /d "%GDAL_DATA%"
+reg ADD "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v PROJ_LIB /t REG_EXPAND_SZ /f /d "%PROJ_LIB%"
+```
+
+В моем примере вы можете видеть, что файл **.bat** отражает, что мой **OSGEO\_ROOT** — это место установки `C:\OSGeo4W64`, потому что он установлен как 64-разрядная версия, а мой **PYTHON\_ROOT** — это `C:\Program Files\Python38`, потому что установлен **Python 3.8.4**.
+
+Теперь мы запустим файл **geodjango\_setup.bat**, дважды щелкнув его или щелкнув правой кнопкой мыши, а затем выбрав "run". Это займет всего секунду, таким образом обновив настройки **Windows PATH**, чтобы GeoDjango знал, где искать, чтобы заставить GDAL и Python работать вместе.
+
 ## Шаг 8. Изменение Django settings.py
+
+В файле Django **settings.py** находятся все ключевые параметры приложения и среды для приложения Django. В этом примере файл будет расположен по адресу `C:\dev\geodjango\geodjango\settings.py`. Нам нужно будет добавить некоторый код в начало этого файла, чтобы указать Django, где искать наши файлы Python GDAL при запуске программы.
+
+Откройте файл **settings.py** в текстовом редакторе (например, Notepad++) и добавьте следующий код после `BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))`
+
+```python
+# settings.py file
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# используйте это при настройке в Windows 10 с GDAL, установленным из OSGeo4W,
+# с использованием значений по умолчанию
+if os.name == 'nt':
+    VIRTUAL_ENV_BASE = os.environ['VIRTUAL_ENV']
+    os.environ['PATH'] = os.path.join(
+        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo'
+    ) + ';' + os.environ['PATH']
+    os.environ['PROJ_LIB'] = os.path.join(
+        VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj'
+    ) + ';' + os.environ['PATH']
+
+#[...] код settings.py продолжается
+```
 
 ## Шаг 9. Обновление файла Django GDAL (libgdal.py)
 
+Последний файл, который нам нужно изменить, чтобы привязки GDAL работали надежно, — это файл **libgdal.py**. Это один из основных файлов Django, поэтому мы должны быть осторожны!
+
+По сути, здесь мы говорим Django искать правильный файл привязки библиотеки GDAL (**.dll**), который был упакован в файлы из GDAL **pip wheel**. Это позволяет Django использовать функции **GDAL**.
+
+Используя текстовый редактор, мы собираемся изменить строку **23** файла Django **libgdal.py**, который находится в файлах виртуальной среды. В этом примере файл находится здесь: `C:\dev\djangovenv\Lib\site-packages\django\contrib\gis\gdal\libgdal.py`. Для версии Python, которую мы установили, мы добавим **"gdal300"** в начало массива **lib\_names** как таковой:
+
+```python
+# C:\dev\djangovenv\Lib\site-packages\django\contrib\gis\gdal\libgdal.py
+# [...]
+# Line 21
+elif os.name == 'nt':
+    # Общие библиотеки Windows NT
+    lib_names = ['gdal300', 'gdal204', 'gdal203', 'gdal202', 'gdal201', 'gdal20']
+```
+
+Значение, которое мы добавили в этот массив, ссылается на файл **.dll**, это может измениться в разных версиях python/GDAL. Имя этого файла можно проверить, просмотрев файлы **.dll** в виртуальной среде здесь: `C:\dev\djangovenv\Lib\site-packages\osgeo`. В этом примере есть файл **.dll** с именем **gdal300.dll**. Django будет искать этот файл на основе приведенного выше массива и выдаст ошибку, если не сможет найти файл **.dll** из этого списка.
+
 ## Шаг 10. Тестирование
+
+Наконец, последний шаг — убедиться, что Django может работать с GDAL. Убедитесь, что ваша виртуальная среда активирована и вы находитесь на корневом уровне вашего проекта Django (т. е. `C:\dev\geodjango`), а затем активируйте оболочку Django с помощью команды `python manage.py shell`. Затем введите команды в соответствии с приведенными ниже фрагментами.
+
+```powershell
+# windows command prompt
+(djangovenv) C:\dev\geodjango>python manage.py shell
+Python 3.8.4 (tags/v3.8.4:d7c567b08f, Mar 10 2020, 10:41:24) [MSC v.1900 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>>import gdal
+>>>import ogr
+>>>exit()
+(djangovenv) C:\dev\geodjango>
+```
+
+Если все вышеперечисленные импорты работают, вы готовы начать работу с Django и GDAL!
+
+<figure><img src="../../.gitbook/assets/update_settings.gif" alt=""><figcaption></figcaption></figure>
