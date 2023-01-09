@@ -3,9 +3,9 @@
 {% hint style="info" %}
 Ссылка на оригинальную статью: [Geodjango-GDAL Setup Windows 10](https://www.pointsnorthgis.ca/blog/geodjango-gdal-setup-windows-10/)
 
-Опубликовано: ???
+Опубликовано: 20 июня 2020
 
-Автор: [Points North GIS](https://www.pointsnorthgis.ca/)
+Автор: **Zackary King** ([Points North GIS](https://www.pointsnorthgis.ca/))
 {% endhint %}
 
 ## Вступление
