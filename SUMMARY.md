@@ -39,6 +39,8 @@
   * [Разница между STATIC\_URL и STATIC\_ROOT](django/django-settings/raznica-mezhdu-static\_url-i-static\_root.md)
 * [Django deploy](django/django-deploy/README.md)
   * [Докеризация приложения Django — Gunicorn и Nginx](django/django-deploy/dokerizaciya-prilozheniya-django-gunicorn-i-nginx.md)
+* [Django gis](django/django-gis/README.md)
+  * [Создание веб-приложения на основе местоположения с помощью Django и GeoDjango](django/django-gis/sozdanie-veb-prilozheniya-na-osnove-mestopolozheniya-s-pomoshyu-django-i-geodjango.md)
 
 ## docker
 
