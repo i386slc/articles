@@ -41,6 +41,7 @@
   * [Докеризация приложения Django — Gunicorn и Nginx](django/django-deploy/dokerizaciya-prilozheniya-django-gunicorn-i-nginx.md)
 * [Django gis](django/django-gis/README.md)
   * [Создание веб-приложения на основе местоположения с помощью Django и GeoDjango](django/django-gis/sozdanie-veb-prilozheniya-na-osnove-mestopolozheniya-s-pomoshyu-django-i-geodjango.md)
+  * [Настройка Geodjango-GDAL для Windows 10](django/django-gis/nastroika-geodjango-gdal-dlya-windows-10.md)
 
 ## docker
 
