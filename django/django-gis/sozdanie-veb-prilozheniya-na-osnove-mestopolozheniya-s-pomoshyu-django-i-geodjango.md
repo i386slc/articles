@@ -349,7 +349,158 @@ $ python manage.py createsuperuser
 
 ### Регистрация модели в административном интерфейсе
 
+[Административное приложение Django](https://docs.djangoproject.com/en/2.1/ref/contrib/admin/) предоставляет полный интерфейс CRUD для управления данными.
+
+GeoDjango расширяет приложение администратора, добавляя поддержку работы с полями геометрии.
+
+Прежде чем вы сможете получить доступ к своим моделям из административной панели Django, вам необходимо их зарегистрировать.
+
+Откройте файл `shop/admin.py` и добавьте следующий код:
+
+```python
+from django.contrib.gis.admin import OSMGeoAdmin
+from .models import Shop
+
+@admin.register(Shop)
+class ShopAdmin(OSMGeoAdmin):
+    list_display = ('name', 'location')
+```
+
+Вы используете декоратор [@admin.register](https://docs.djangoproject.com/en/2.1/ref/contrib/admin/#the-register-decorator) для регистрации модели **Shop** в приложении администратора **admin**. Декорированный класс является представлением модели **Shop** в административном интерфейсе и позволяет настраивать различные аспекты, такие как поля магазина, которые вы хотите отобразить. (В вашем случае это имя **name** и местоположение **location**). Для получения дополнительной информации о декораторах вы можете прочитать [Primer on Python Decorators](https://realpython.com/primer-on-python-decorators/).
+
+Поскольку модель **Shop** включает в себя поле **GeoDjango**, вам необходимо использовать специальный класс **OSMGeoAdmin**, доступный в пакете **django.contrib.gis.admin**.
+
+Вы можете использовать **GeoModelAdmin** или **OSMGeoAdmin**, который является подклассом **GeoModelAdmin**, который использует слой [Open Street Map](https://www.openstreetmap.org/) в админке для отображения геометрических полей. Это предоставляет больше информации, такой как детали улиц и проездов, чем было бы доступно с классом **GeoModelAdmin**, который использует уровень векторной карты [Vector Map Level 0](http://earth-info.nga.mil/publications/vmap0.html).
+
+Теперь вы можете запустить сервер Django:
+
+```bash
+$ python manage.py runserver
+```
+
+Ваше приложение будет запущено с `localhost: 8000`, и вы можете получить доступ к интерфейсу администратора с `localhost: 8000/admin`.
+
+<figure><img src="../../.gitbook/assets/Screenshot_from_2018-11-28_21-22-03.webp" alt=""><figcaption></figcaption></figure>
+
+Это скриншот из интерфейса добавления магазина **Add shop**:
+
+<figure><img src="../../.gitbook/assets/Screenshot_from_2018-11-28_21-12-25.webp" alt=""><figcaption></figcaption></figure>
+
+Вы можете видеть, что геометрическое поле **Location** отображается в виде интерактивной карты. Вы можете увеличивать и уменьшать масштаб карты, а также выбирать различные селекторы в правом верхнем углу карты, чтобы выбрать место, отмеченное зеленым кругом.
+
 ### Добавление исходных данных
+
+Вам нужны некоторые начальные демонстрационные данные для вашего приложения, но вместо того, чтобы добавлять данные вручную, вы можете использовать миграцию данных.
+
+Миграции данных можно использовать для нескольких сценариев, включая добавление исходных данных в вашу базу данных. Дополнительные сведения см. в статье [Миграция данных](https://realpython.com/data-migrations/).
+
+Перед созданием миграции давайте сначала получим некоторые реальные данные из [OpenStreetMap](http://www.openstreetmap.org/), используя [overpass turbo](https://overpass-turbo.eu/), веб-инструмент фильтрации данных для **OpenStreetMap**. Вы можете запускать [API-запросы Overpass](http://wiki.openstreetmap.org/wiki/Overpass\_API) и интерактивно анализировать полученные данные на карте.
+
+Вы также можете использовать встроенный мастер [Wizard](http://wiki.openstreetmap.org/wiki/Overpass\_turbo/Wizard), который упрощает создание запросов.
+
+В вашем случае вы хотите получить все магазины в городе. Просто нажмите на кнопку **Wizard**. Появится небольшое окно. В текстовом поле напишите запрос, например `«shop in Miami»`, и нажмите _**build and run query**_.
+
+<figure><img src="../../.gitbook/assets/Screenshot_from_2018-11-09_22-55-41.webp" alt=""><figcaption></figcaption></figure>
+
+Затем нажмите кнопку экспорта **export** и нажмите **download/copy as raw OSM data**, чтобы загрузить файл JSON, содержащий необработанные данные OSM. Сохраните файл как **data.json** в корневой папке вашего проекта:
+
+<figure><img src="../../.gitbook/assets/Screenshot_from_2018-10-19_02-25-43.webp" alt=""><figcaption></figcaption></figure>
+
+Это скриншот примера данных из файла:
+
+<figure><img src="../../.gitbook/assets/Screenshot_from_2018-10-19_02-34-34.webp" alt=""><figcaption></figcaption></figure>
+
+Вам нужно получить объекты в массиве **elements**. В частности, поля **lat**, **lon** и **tags (name)** для каждого магазина.
+
+Вы можете найти более подробную информацию о том, как писать запросы **Overpass**, на этой [вики](http://wiki.openstreetmap.org/wiki/Overpass\_API/Overpass\_QL).
+
+Теперь давайте создадим пустую миграцию для импорта содержимого файла **data.json** в базу данных с помощью следующей команды:
+
+```bash
+$ python manage.py makemigrations shops --empty
+```
+
+Откройте файл миграции. Он имеет следующий код:
+
+```python
+from django.db import migrations
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ('shops', '0001_initial'),
+    ]
+    operations = [
+    ]
+```
+
+Затем вам нужно создать функцию `load_data()`, которая будет выполняться функцией **RunPython()**. Сначала в области импорта добавьте следующие импорты:
+
+```python
+from django.db import migrations
+import json
+from django.contrib.gis.geos import fromstr
+from pathlib import Path
+```
+
+Вы импортируете класс **Path** из пакета [pathlib](https://docs.python.org/3/library/pathlib.html) для доступа к низкоуровневым системным функциям, пакет [json](https://docs.python.org/3.7/library/json.html) для работы с **JSON**, встроенный API миграции Django и [fromstr()](https://docs.djangoproject.com/en/2.1/ref/contrib/gis/geos/#django.contrib.gis.geos.fromstr), часть пакета [geos](https://docs.djangoproject.com/en/2.1/ref/contrib/gis/geos/).
+
+Затем добавьте `load_data()`:
+
+```python
+DATA_FILENAME = 'data.json'
+def load_data(apps, schema_editor):
+    Shop = apps.get_model('shops', 'Shop')
+    jsonfile = Path(__file__).parents[2] / DATA_FILENAME
+
+    with open(str(jsonfile)) as datafile:
+        objects = json.load(datafile)
+        for obj in objects['elements']:
+            try:
+                objType = obj['type']
+                if objType == 'node':
+                    tags = obj['tags']
+                    name = tags.get('name','no-name')
+                    longitude = obj.get('lon', 0)
+                    latitude = obj.get('lat', 0)
+                    location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+                    Shop(name=name, location=location).save()
+            except KeyError:
+                pass
+```
+
+Давайте объясним код, который вы только что добавили. Сначала вы создаете абсолютный путь, используя класс **Path** [библиотеки pathlib](https://realpython.com/python-pathlib/), и открываете файл **data.json**. Затем вы анализируете файл **JSON** в объект Python.
+
+Вы перебираете объект **elements**, содержащий местоположения и теги магазинов. Внутри цикла вы извлекаете имя и координаты долготы и широты. Затем вы используете `formstr()` для возврата действительного объекта [GEOSGeometry](https://docs.djangoproject.com/en/2.1/ref/contrib/gis/geos/#django.contrib.gis.geos.GEOSGeometry), соответствующего пространственным данным в строке, которая может быть назначена полю местоположения модели **Shop**. Наконец, вы создаете и сохраняете экземпляр модели магазина, соответствующий извлеченным данным.
+
+Вы используете оператор [with statement](https://dbader.org/blog/python-context-managers-and-with-statement), поэтому вам не нужно явно закрывать файл, и [f-строку](https://realpython.com/python-f-strings/) для форматирования аргумента `fromstr()`.
+
+`fromstr()` принимает **srid** в качестве второго параметра. [srid](https://en.wikipedia.org/wiki/Spatial\_reference\_system) означает идентификатор пространственной системы отсчета. Это уникальное значение для идентификации систем пространственной привязки (систем проекций, используемых для интерпретации данных в базе данных пространственных данных).
+
+**4326 srid** — самая популярная система, используемая с PostGIS. Он также известен как [WGS84](https://en.wikipedia.org/wiki/World\_Geodetic\_System#WGS84), где единицы измерения указываются в градусах долготы и широты. Вы можете найти на сайте [spacereference.org](http://spatialreference.org/) базу данных систем пространственной привязки на базе Django.
+
+Затем добавьте класс миграции для выполнения вышеуказанной функции при запуске команды **migrate**:
+
+```python
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('shops', '0005_auto_20181018_2050'),
+    ]
+
+    operations = [
+        migrations.RunPython(load_data)
+    ]
+```
+
+Вот и все. Теперь вы можете вернуться к своему терминалу и запустить следующее:
+
+```bash
+$ python manage.py migrate
+```
+
+Данные из файла **data.json** будут загружены в вашу базу данных. Запустите свой сервер Django и перейдите в интерфейс администратора. Вы должны увидеть свои данные в таблице. В моем случае это скриншот части таблицы:
+
+<figure><img src="../../.gitbook/assets/Screenshot_from_2018-11-28_21-09-59.webp" alt=""><figcaption></figcaption></figure>
 
 ### Отображение ближайших магазинов
 
