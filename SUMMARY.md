@@ -24,6 +24,7 @@
   * [Сила Q-объектов Django](django/django-zaprosy-query/sila-q-obektov-django.md)
   * ["Добавление" объектов Q в Django](django/django-zaprosy-query/dobavlenie-obektov-q-v-django.md)
   * [Как динамически фильтровать queryset](django/django-zaprosy-query/kak-dinamicheski-filtrovat-queryset.md)
+  * [Prefetch Related и Select Related в Django](django/django-zaprosy-query/prefetch-related-i-select-related-v-django.md)
 * [Django формы](django/django-formy/README.md)
   * [Как использовать Django Widget Tweaks](django/django-formy/kak-ispolzovat-django-widget-tweaks.md)
   * [Учебник по Django Formsets — создание динамических форм с помощью Htmx](django/django-formy/uchebnik-po-django-formsets-sozdanie-dinamicheskikh-form-s-pomoshyu-htmx.md)
