@@ -120,3 +120,134 @@ class Book(models.Model):
 ```
 
 ## Prefetch Related
+
+Мы можем использовать метод **prefetch\_related** с отношениями «многие ко многим», чтобы повысить производительность за счет уменьшения количества запросов.
+
+```python
+def get_all_books():
+    books = Book.objects.prefetch_related('publishers')
+    for book in books:
+        print(book.publishers.all())
+```
+
+Давайте вызовем эту функцию и посмотрим, что произошло.
+
+```python
+>>> get_all_books()
+(0.001) SELECT "django_orms_book"."id", "django_orms_book"."name",
+               "django_orms_book"."author_id" FROM "django_orms_book"; args=()
+(0.000) SELECT ("django_orms_book_publishers"."book_id")
+               AS "_prefetch_related_val_book_id", "django_orms_person"."id",
+               "django_orms_person"."name"
+               FROM "django_orms_person"
+               INNER JOIN "django_orms_book_publishers"
+               ON
+               ("django_orms_person"."id" = "django_orms_book_publishers"."person_id")
+               WHERE "django_orms_book_publishers"."book_id" IN (1, 2); args=(1, 2)
+
+<QuerySet [<Person: Person object (2)>, <Person: Person object (3)>]>
+<QuerySet [<Person: Person object (1)>, <Person: Person object (3)>]>
+```
+
+Как видите, 2 запроса выполняются с использованием **prefetch\_related**.
+
+Давайте немного изменим функцию и добавим `values()` вместо `all()`.
+
+```python
+def get_all_books():
+    books = Book.objects.prefetch_related('publishers')
+    for book in books:
+        print(book.publishers.values('id', 'name'))
+```
+
+Посмотрим на результат.
+
+```python
+>>> get_all_books()
+(0.000) SELECT "django_orms_book"."id", "django_orms_book"."name",
+               "django_orms_book"."author_id" FROM "django_orms_book"; args=()
+(0.000) SELECT ("django_orms_book_publishers"."book_id")
+               AS "_prefetch_related_val_book_id", "django_orms_person"."id",
+               "django_orms_person"."name" FROM "django_orms_person"
+               INNER JOIN "django_orms_book_publishers"
+               ON
+               ("django_orms_person"."id" = "django_orms_book_publishers"."person_id")
+               WHERE "django_orms_book_publishers"."book_id" IN (1, 2); args=(1, 2)
+(0.000) SELECT "django_orms_person"."id", "django_orms_person"."name"
+               FROM "django_orms_person"
+               INNER JOIN "django_orms_book_publishers"
+               ON
+               ("django_orms_person"."id" = "django_orms_book_publishers"."person_id")
+               WHERE "django_orms_book_publishers"."book_id" = 1
+               LIMIT 21; args=(1,)
+<QuerySet [{'id': 2, 'name': 'Person2'}, {'id': 3, 'name': 'Person3'}]>
+
+(0.000) SELECT "django_orms_person"."id", "django_orms_person"."name"
+               FROM "django_orms_person"
+               INNER JOIN "django_orms_book_publishers"
+               ON
+               ("django_orms_person"."id" = "django_orms_book_publishers"."person_id")
+               WHERE "django_orms_book_publishers"."book_id" = 2  LIMIT 21; args=(2,)
+<QuerySet [{'id': 1, 'name': 'Person1'}, {'id': 3, 'name': 'Person3'}]>
+```
+
+Количество запросов увеличилось до 4. Это связано с использованием метода `values()` вместо `all()`. На каждой итерации выполняется 1 запрос для получения издателей.
+
+По умолчанию предварительная выборка объединяет все результаты, но здесь мы использовали `values('id', 'name')`, и из-за этого Django не объединяет нужные нам результаты.
+
+```python
+from django.db.models import Prefetch
+
+def get_all_books():
+    books = Book.objects.prefetch_related(
+        Prefetch(
+            'publishers',
+            queryset=Person.objects.only('id', 'name'),
+            to_attr='all_publishers'
+        ))
+    for book in books:
+        print(book.all_publishers)
+```
+
+Я добавила **Prefetch**, чтобы установить для нас новые атрибуты. Мы извлекаем значения из поля издателей, используя `Person.objects.only('id','name')` в качестве базового набора запросов и сообщаем Django, что нам нужны все предварительно выбранные значения в атрибуте **all\_publishers**.
+
+Давайте проверим вывод.
+
+```python
+>>> get_all_books()
+(0.000) SELECT "django_orms_book"."id", "django_orms_book"."name",
+               "django_orms_book"."author_id" FROM "django_orms_book"; args=()
+(0.001) SELECT ("django_orms_book_publishers"."book_id")
+               AS "_prefetch_related_val_book_id", "django_orms_person"."id",
+               "django_orms_person"."name"
+               FROM "django_orms_person"
+               INNER JOIN "django_orms_book_publishers"
+               ON
+               ("django_orms_person"."id" = "django_orms_book_publishers"."person_id")
+               WHERE "django_orms_book_publishers"."book_id" IN (1, 2); args=(1, 2)
+[<Person: Person object (2)>, <Person: Person object (3)>]
+[<Person: Person object (1)>, <Person: Person object (3)>]
+```
+
+YESS 😃. Проблема решается с помощью **Prefetch**.
+
+Мы также можем сделать то же самое без атрибута **to\_attr** **Prefetch**. Ниже приведена функция без **to\_attr**.
+
+```python
+from django.db.models import Prefetch
+
+def get_all_books():
+    books = Book.objects.prefetch_related(
+        Prefetch(
+            'publishers',
+            queryset=Person.objects.only('id', 'name'),
+        ))
+    for book in books:
+        print(book.publishers.all())
+```
+
+Это дает тот же результат, что и выше.
+
+Я надеюсь, вы узнали немного больше о предварительной выборке и связанном выборе.
+
+Спасибо, что прочитали эту статью. Если вам это нравится, нажмите на 👏, чтобы оценить его из 50, а также поделиться им с друзьями. Это многое значит для меня.
