@@ -338,3 +338,145 @@ class XDSoftDateTimePickerInput(DateTimeInput):
 Чтобы иметь более общую реализацию, на этот раз мы выбираем поле для инициализации компонента, используя его имя вместо идентификатора, если пользователь изменит префикс идентификатора.
 
 Теперь использование:
+
+#### **core/forms.py**
+
+```python
+from django import forms
+from .widgets import XDSoftDateTimePickerInput
+
+class DateForm(forms.Form):
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'], 
+        widget=XDSoftDateTimePickerInput()
+    )
+```
+
+#### template
+
+```django
+{{ form.date }}
+```
+
+## **Fengyuan Chen’s Datepicker**
+
+[Docs ](https://fengyuanchen.github.io/datepicker/)/ [Source](https://github.com/fengyuanchen/datepicker)
+
+Это очень красивый и минималистичный инструмент выбора даты. К сожалению нет временной поддержки. Но если вам нужны только даты, это отличный выбор.
+
+Чтобы установить этот **datepicker**, вы можете либо использовать их [CDN](https://cdnjs.com/libraries/datepicker), либо загрузить исходники с их [страницы выпусков GitHub](https://github.com/fengyuanchen/datepicker/releases). Обратите внимание, что они не предоставляют скомпилированные/обработанные файлы JavaScript. Но вы можете загрузить их на свой локальный компьютер, используя CDN.
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Static Example</title>
+  <style>body {font-family: Arial, sans-serif;}</style>
+  
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+  <!-- Fengyuan Chen's Datepicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <input id="datepicker">
+
+  <script>
+    $(function () {
+      $("#datepicker").datepicker();
+    });
+  </script>
+
+</body>
+</html>
+
+
+```
+
+### Прямое использование
+
+Базовая интеграция с Django (обратите внимание, что теперь мы используем **DateField** вместо **DateTimeField**):
+
+#### **forms.py**
+
+```
+from django import forms
+
+class DateForm(forms.Form):
+    date = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'])
+```
+
+#### template
+
+```django
+{{ form.date }}
+
+<script>
+  $(function () {
+    $("#id_date").datepicker({
+      format:'dd/mm/yyyy',
+    });
+  });
+</script>
+```
+
+### Пользовательский виджет
+
+#### **core/widgets.py**
+
+```python
+from django.forms import DateInput
+
+class FengyuanChenDatePickerInput(DateInput):
+    template_name = 'widgets/fengyuanchen_datepicker.html'
+```
+
+#### **widgets/fengyuanchen\_datepicker.html**
+
+```django
+{% raw %}
+{% include "django/forms/widgets/input.html" %}
+{% endraw %}
+
+<script>
+  $(function () {
+    $("input[name='{{ widget.name }}']").datepicker({
+      format:'dd/mm/yyyy',
+    });
+  });
+</script>
+```
+
+Использование:
+
+#### **core/forms.py**
+
+```python
+from django import forms
+from .widgets import FengyuanChenDatePickerInput
+
+class DateForm(forms.Form):
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'], 
+        widget=FengyuanChenDatePickerInput()
+    )
+```
+
+#### template
+
+```django
+{{ form.date }}
+```
+
+## Выводы
+
+Реализация очень похожа независимо от того, какое средство выбора даты/даты и времени вы используете. Надеемся, что это руководство дало некоторое представление о том, как интегрировать такую библиотеку внешнего интерфейса в проект Django.
+
+Как всегда, лучшим источником информации о каждой из этих библиотек является их официальная документация.
+
+Я также создал пример проекта, чтобы показать использование и реализацию виджетов для каждой из библиотек, представленных в этом руководстве. Загрузите исходный код из [github.com/sibtc/django-datetimepicker-example](https://github.com/sibtc/django-datetimepicker-example).
