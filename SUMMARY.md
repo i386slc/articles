@@ -35,6 +35,7 @@
   * [Как использовать вложенные наборы форм в django](django/django-formy/kak-ispolzovat-vlozhennye-nabory-form-v-django.md)
   * [Работа с вложенными формами в Django](django/django-formy/rabota-s-vlozhennymi-formami-v-django.md)
   * [Django inline formset factory с примерами](django/django-formy/django-inline-formset-factory-s-primerami.md)
+  * [Как использовать выбор даты с Django](django/django-formy/kak-ispolzovat-vybor-daty-s-django.md)
 * [Django менеджеры](django/django-menedzhery/README.md)
   * [Совет #11. Пользовательский менеджер с цепочками запросов](django/django-menedzhery/sovet-11.-polzovatelskii-menedzher-s-cepochkami-zaprosov.md)
 * [Django settings](django/django-settings/README.md)
