@@ -46,6 +46,8 @@
 * [Django gis](django/django-gis/README.md)
   * [Создание веб-приложения на основе местоположения с помощью Django и GeoDjango](django/django-gis/sozdanie-veb-prilozheniya-na-osnove-mestopolozheniya-s-pomoshyu-django-i-geodjango.md)
   * [Настройка Geodjango-GDAL для Windows 10](django/django-gis/nastroika-geodjango-gdal-dlya-windows-10.md)
+* [Django async](django/django-async/README.md)
+  * [Планирование задач с помощью APScheduler](django/django-async/planirovanie-zadach-s-pomoshyu-apscheduler.md)
 
 ## docker
 
