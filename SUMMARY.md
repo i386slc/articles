@@ -48,6 +48,7 @@
   * [Настройка Geodjango-GDAL для Windows 10](django/django-gis/nastroika-geodjango-gdal-dlya-windows-10.md)
 * [Django async](django/django-async/README.md)
   * [Планирование задач с помощью APScheduler](django/django-async/planirovanie-zadach-s-pomoshyu-apscheduler.md)
+  * [Интеграция APScheduler и django\_apscheduler в проект Django](django/django-async/integraciya-apscheduler-i-django\_apscheduler-v-proekt-django.md)
 
 ## docker
 

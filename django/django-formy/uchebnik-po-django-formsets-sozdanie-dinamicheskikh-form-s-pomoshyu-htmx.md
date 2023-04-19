@@ -5,7 +5,7 @@
 
 Опубликовано: 24 августа 2021
 
-Автор: [**Matthew Freire**](https://justdjango.com/blog)****
+Автор: [**Matthew Freire**](https://justdjango.com/blog)
 {% endhint %}
 
 Узнайте, как создавать динамические формы с помощью Django и Htmx.
