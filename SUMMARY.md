@@ -54,3 +54,8 @@
 
 * [ENV, ARG](docker/env-arg/README.md)
   * [Docker ARG, ENV и .env — полное руководство](docker/env-arg/docker-arg-env-i-.env-polnoe-rukovodstvo.md)
+
+## DRF
+
+* [DRF exceptions](drf/drf-exceptions/README.md)
+  * [Проверка запросов и обработка пользовательских исключений в DRF](drf/drf-exceptions/proverka-zaprosov-i-obrabotka-polzovatelskikh-isklyuchenii-v-drf.md)
