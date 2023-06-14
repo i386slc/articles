@@ -59,3 +59,8 @@
 
 * [DRF exceptions](drf/drf-exceptions/README.md)
   * [Проверка запросов и обработка пользовательских исключений в DRF](drf/drf-exceptions/proverka-zaprosov-i-obrabotka-polzovatelskikh-isklyuchenii-v-drf.md)
+
+## Python
+
+* [Работа с файлами](python/rabota-s-failami/README.md)
+  * [Как создать Watchdog в Python](python/rabota-s-failami/kak-sozdat-watchdog-v-python.md)
