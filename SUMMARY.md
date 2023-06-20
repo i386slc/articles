@@ -10,6 +10,8 @@
   * [Как отправлять сообщения Celery удаленному воркеру](ocheredi-zadach/celery/kak-otpravlyat-soobsheniya-celery-udalennomu-vorkeru.md)
   * [Масштабирование Celery — отправка задач на удаленные машины](ocheredi-zadach/celery/masshtabirovanie-celery-otpravka-zadach-na-udalennye-mashiny.md)
   * [Запуск Celery в Windows 10](ocheredi-zadach/celery/zapusk-celery-v-windows-10.md)
+* [Celery Docker](ocheredi-zadach/celery-docker/README.md)
+  * [Докеризация Celery и Django](ocheredi-zadach/celery-docker/dokerizaciya-celery-i-django.md)
 
 ## win32api
 
