@@ -259,3 +259,276 @@ import os
 ```
 
 ## Dockerfile
+
+Далее создайте в корне проекта следующие файлы и папки:
+
+```
+└── compose
+    └── local
+        └── django
+            └── Dockerfile
+```
+
+Затем обновите **Dockerfile**:
+
+```docker
+FROM python:3.10-slim-buster
+
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+RUN apt-get update \
+  # зависимости для сборки пакетов Python
+  && apt-get install -y build-essential \
+  # зависимости psycopg2
+  && apt-get install -y libpq-dev \
+  # Зависимости переводов
+  && apt-get install -y gettext \
+  # очистка неиспользуемых файлов
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/*
+
+# Требования устанавливаются здесь, чтобы обеспечить их кеширование.
+COPY ./requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
+
+COPY ./compose/local/django/entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
+
+COPY ./compose/local/django/start /start
+RUN sed -i 's/\r$//g' /start
+RUN chmod +x /start
+
+COPY ./compose/local/django/celery/worker/start /start-celeryworker
+RUN sed -i 's/\r$//g' /start-celeryworker
+RUN chmod +x /start-celeryworker
+
+COPY ./compose/local/django/celery/beat/start /start-celerybeat
+RUN sed -i 's/\r$//g' /start-celerybeat
+RUN chmod +x /start-celerybeat
+
+COPY ./compose/local/django/celery/flower/start /start-flower
+RUN sed -i 's/\r$//g' /start-flower
+RUN chmod +x /start-flower
+
+WORKDIR /app
+
+ENTRYPOINT ["/entrypoint"]
+
+```
+
+> **Dockerfile** — это текстовый файл, содержащий команды, необходимые для создания образа.
+
+Примечания:
+
+1. `RUN sed -i 's/\r$//g' /entrypoint` используется для обработки окончаний строк сценариев оболочки, которые преобразуют окончания строк Windows в окончания строк UNIX.
+2. Мы скопировали различные сценарии запуска службы в корневой каталог окончательного образа.
+3. Поскольку исходный код будет размещен в каталоге «/app» контейнера (из тома `.:/app` в файле Docker Compose), мы устанавливаем рабочий каталог в `/app`.
+
+## Entrypoint
+
+Мы использовали ключ **depend\_on** для службы **web**, чтобы гарантировать, что она не запустится до тех пор, пока не будут запущены службы **redis** и **db**. Однако то, что контейнер **db** запущен, не означает, что база данных запущена и готова к обработке подключений. Таким образом, мы можем использовать сценарий оболочки, называемый точкой входа, чтобы убедиться, что мы действительно можем подключиться к базе данных, прежде чем запускать службу **web**.
+
+`compose/local/django/entrypoint`:
+
+```bash
+#!/bin/bash
+
+# если какая-либо из команд в вашем коде по какой-либо причине не работает,
+# весь скрипт не работает
+set -o errexit
+# fail exit, если одна из ваших команд pipe не удалась
+set -o pipefail
+# выход, если какая-либо из ваших переменных не установлена
+set -o nounset
+
+postgres_ready() {
+python << END
+import sys
+
+import psycopg2
+
+try:
+    psycopg2.connect(
+        dbname="${SQL_DATABASE}",
+        user="${SQL_USER}",
+        password="${SQL_PASSWORD}",
+        host="${SQL_HOST}",
+        port="${SQL_PORT}",
+    )
+except psycopg2.OperationalError:
+    sys.exit(-1)
+sys.exit(0)
+
+END
+}
+until postgres_ready; do
+  >&2 echo 'Waiting for PostgreSQL to become available...'
+  sleep 1
+done
+>&2 echo 'PostgreSQL is available'
+
+exec "$@"
+
+```
+
+Примечания:
+
+1. Мы определили функцию **postgres\_ready**, которая вызывается в цикле. Затем код будет продолжать выполняться до тех пор, пока сервер Postgres не будет доступен.
+2. `exec "$@"` используется, чтобы сделать точку входа сквозной, чтобы гарантировать, что Docker выполняет команду, которую передает пользователь (команда: `/start`, в нашем случае). Для получения дополнительной информации просмотрите этот [ответ Stack Overflow](https://stackoverflow.com/a/39082923/2371995).
+
+Опять же, этот сценарий точки входа **entrypoint** и указанный выше файл **Dockerfile** будут использоваться с сервисами **web**, **celery\_worker**, **celery\_beat** и **flower**, чтобы убедиться, что они не запускают соответствующие стартовые сценарии, пока не будет запущен Postgres.
+
+> Почему мы не дождались появления **Redis** в сценарии точки входа? **Postgres** обычно запускается намного медленнее, чем Redis, поэтому мы можем предположить, что Redis заработает, как только Postgres заработает.
+
+## Стартовые скрипты
+
+Добавим стартовые скрипты.
+
+Начните с добавления файлов и папок в папку `"compose/local/django"`, чтобы она выглядела так:
+
+```
+└── django
+    ├── Dockerfile
+    ├── celery
+    │   ├── beat
+    │   │   └── start
+    │   ├── flower
+    │   │   └── start
+    │   └── worker
+    │       └── start
+    ├── entrypoint
+    └── start
+```
+
+Теперь обновите каждый из четырех сценариев запуска.
+
+`compose/local/django/start`:
+
+```bash
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+```
+
+`compose/local/django/celery/beat/start`:
+
+```bash
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+rm -f './celerybeat.pid'
+celery -A django_celery_example beat -l INFO
+```
+
+`compose/local/django/celery/worker/start`:
+
+```bash
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+celery -A django_celery_example worker -l INFO
+```
+
+`compose/local/django/celery/flower/start`:
+
+```bash
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+worker_ready() {
+    celery -A django_celery_example inspect ping
+}
+
+until worker_ready; do
+  >&2 echo 'Celery workers not available'
+  sleep 1
+done
+>&2 echo 'Celery workers is available'
+
+celery -A django_celery_example  \
+    --broker="${CELERY_BROKER}" \
+    flower
+```
+
+В этом финальном сценарии мы использовали ту же логику из нашей точки входа **entrypoint**, чтобы гарантировать, что **Flower** не запустится, пока рабочие процессы не будут готовы.
+
+## Основной рабочий процесс
+
+<figure><img src="../../.gitbook/assets/docker_compose_dev_build.png" alt=""><figcaption></figcaption></figure>
+
+Закончив настройку, давайте посмотрим, как все работает вместе, чтобы лучше понять весь рабочий процесс.
+
+Убедитесь, что у вас есть файл `requirements.txt` в корне проекта:
+
+```python
+django==4.0.7
+celery==5.2.7
+redis==4.3.4
+flower==1.2.0
+psycopg2-binary==2.9.2              # new
+```
+
+Начнем с создания образов:
+
+```bash
+$ docker-compose build
+```
+
+После создания образов запустите контейнеры в автономном режиме:
+
+```bash
+$ docker-compose up -d
+```
+
+Это запустит каждый из контейнеров в порядке, указанном в параметре **depend\_on**:
+
+1. контейнеры **redis** и **db** в первую очередь
+2. Затем контейнеры **web**, **celery\_worker**, **celery\_beat** и **flower**.
+
+Как только контейнеры будут запущены, будут выполняться сценарии точки входа **entrypoint**, а затем, как только **Postgres** будет запущен, будут выполнены соответствующие стартовые сценарии **start**. Будут применены миграции Django и запущен сервер разработки. Приложение Django должно быть доступно.
+
+Убедитесь, что вы можете просмотреть экран приветствия Django по адресу `http://localhost:8010/`. Вы также должны иметь возможность просматривать панель инструментов Flower по адресу `http://localhost:5557/`.
+
+## Поиск неисправностей
+
+Если у вас возникнут проблемы, вы можете просмотреть журналы по адресу:
+
+```bash
+$ docker-compose logs -f
+```
+
+Попробуйте устранить проблему, а затем заново создайте образы и снова запустите контейнеры.
+
+Для пользователей Mac Silicon, если вы получаете какие-то странные ошибки, вам может потребоваться запустить `export DOCKER_DEFAULT_PLATFORM=linux/amd64` перед запуском команд **Docker Compose**. Для получения более подробной информации, пожалуйста, ознакомьтесь с этой [проблемой GitHub](https://github.com/testdrivenio/fastapi-celery-project/issues/7#issuecomment-1416787688).
+
+## Полезные команды
+
+Чтобы войти в оболочку определенного работающего контейнера, выполните следующую команду:
+
+```bash
+$ docker-compose exec <service-name> bash
+
+# для примера:
+# docker-compose exec web bash
+```
+
+Если вы хотите запустить команду для нового контейнера, который в данный момент не запущен, запустите:
+
+```bash
+$ docker-compose run --rm web bash
+```
+
+> Параметр `--rm` указывает докеру удалить контейнер после выхода из оболочки bash.
