@@ -532,3 +532,101 @@ $ docker-compose run --rm web bash
 ```
 
 > Параметр `--rm` указывает докеру удалить контейнер после выхода из оболочки bash.
+
+## Простой тест
+
+Давайте проверим, войдя в оболочку Django работающего веб-сервиса **web**:
+
+```bash
+$ docker-compose exec web python manage.py shell
+```
+
+Затем запустите следующий код:
+
+```python
+>>> from django_celery_example.celery import divide
+>>>
+>>> divide.delay(1, 2)
+<AsyncResult: ea7b49f0-250c-4b21-b3ed-7ad1493e22ee>
+```
+
+Обратите внимание на идентификатор задачи (**ea7b49f0-250c-4b21-b3ed-7ad1493e22ee** в приведенном выше случае).
+
+Откройте новое окно терминала, перейдите в каталог проекта и просмотрите журналы рабочего процесса **Celery**:
+
+```bash
+$ docker-compose logs celery_worker
+```
+
+Вы должны увидеть что-то похожее на:
+
+```bash
+celery_worker_1  | [2022-08-13 05:04:18,096: INFO/MainProcess] Task django_celery_example.celery.divide[ea7b49f0-250c-4b21-b3ed-7ad1493e22ee] received
+celery_worker_1  | [2022-08-13 05:04:23,110: INFO/ForkPoolWorker-2] Task django_celery_example.celery.divide[ea7b49f0-250c-4b21-b3ed-7ad1493e22ee] succeeded in 5.01021368200054s: 0.5
+```
+
+В первом окне выйдите из оболочки.
+
+Теперь давайте войдем в оболочку службы **redis**:
+
+```bash
+$ docker-compose exec redis sh
+```
+
+> Мы использовали **sh**, так как **bash** недоступен в этом контейнере.
+
+Далее, используя идентификатор задачи из приведенного выше, давайте посмотрим результат задачи непосредственно из **Redis**:
+
+```bash
+$ redis-cli
+127.0.0.1:6379> MGET celery-task-meta-ea7b49f0-250c-4b21-b3ed-7ad1493e22ee
+1) "{\"status\": \"SUCCESS\", \"result\": 0.5, \"traceback\": null, \"children\": [], \"date_done\": \"2022-08-13T05:04:23.105482\", \"task_id\": \"ea7b49f0-250c-4b21-b3ed-7ad1493e22ee\"}"
+```
+
+Убедитесь, что вы также видите результат на панели **flower**.
+
+## Заключение
+
+В этой главе мы рассмотрели, как использовать Docker и Docker Compose для запуска Django, Postgres, Redis и Celery. Вы должны иметь возможность запускать каждую службу из одного окна терминала с помощью Docker Compose.
+
+Ваша окончательная структура проекта после этой главы должна теперь выглядеть так:
+
+```
+├── .env
+│   └── .dev-sample
+├── celerybeat-schedule
+├── compose
+│   └── local
+│       └── django
+│           ├── Dockerfile
+│           ├── celery
+│           │   ├── beat
+│           │   │   └── start
+│           │   ├── flower
+│           │   │   └── start
+│           │   └── worker
+│           │       └── start
+│           ├── entrypoint
+│           └── start
+├── django_celery_example
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── celery.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── docker-compose.yml
+├── manage.py
+├── polls
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+└── requirements.txt
+```
+
+Обязательно удалите старый файл базы данных **SQLite**, `db.sqlite3`, и папку `"venv"`, если вы еще этого не сделали.
