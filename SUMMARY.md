@@ -70,3 +70,4 @@
 ## Requests
 
 * [Тайм-ауты в Python requests](requests/taim-auty-v-python-requests.md)
+* [Установка времени ожидания для запросов Python](requests/ustanovka-vremeni-ozhidaniya-dlya-zaprosov-python.md)
