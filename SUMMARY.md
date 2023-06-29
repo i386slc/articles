@@ -13,6 +13,7 @@
 * [Celery Docker](ocheredi-zadach/celery-docker/README.md)
   * [Докеризация Celery и Django](ocheredi-zadach/celery-docker/dokerizaciya-celery-i-django.md)
   * [Несколько контейнеров Docker и Celery](ocheredi-zadach/celery-docker/neskolko-konteinerov-docker-i-celery.md)
+  * [Мульти-Celery внутри докер-контейнера](ocheredi-zadach/celery-docker/multi-celery-vnutri-doker-konteinera.md)
 
 ## win32api
 
