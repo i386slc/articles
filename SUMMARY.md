@@ -66,3 +66,7 @@
 
 * [Работа с файлами](python/rabota-s-failami/README.md)
   * [Как создать Watchdog в Python](python/rabota-s-failami/kak-sozdat-watchdog-v-python.md)
+
+## Requests
+
+* [Тайм-ауты в Python requests](requests/taim-auty-v-python-requests.md)
