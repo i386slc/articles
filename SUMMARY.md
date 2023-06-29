@@ -12,6 +12,7 @@
   * [Запуск Celery в Windows 10](ocheredi-zadach/celery/zapusk-celery-v-windows-10.md)
 * [Celery Docker](ocheredi-zadach/celery-docker/README.md)
   * [Докеризация Celery и Django](ocheredi-zadach/celery-docker/dokerizaciya-celery-i-django.md)
+  * [Несколько контейнеров Docker и Celery](ocheredi-zadach/celery-docker/neskolko-konteinerov-docker-i-celery.md)
 
 ## win32api
 
