@@ -14,6 +14,8 @@
   * [Докеризация Celery и Django](ocheredi-zadach/celery-docker/dokerizaciya-celery-i-django.md)
   * [Несколько контейнеров Docker и Celery](ocheredi-zadach/celery-docker/neskolko-konteinerov-docker-i-celery.md)
   * [Мульти-Celery внутри докер-контейнера](ocheredi-zadach/celery-docker/multi-celery-vnutri-doker-konteinera.md)
+  * [Celery с docker-compose](ocheredi-zadach/celery-docker/celery-s-docker-compose.md)
+  * [Github gist к статье Django+Celery](ocheredi-zadach/celery-docker/github-gist-k-state-django+celery.md)
 
 ## win32api
 
