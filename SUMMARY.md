@@ -71,7 +71,10 @@
 * [Работа с файлами](python/rabota-s-failami/README.md)
   * [Как создать Watchdog в Python](python/rabota-s-failami/kak-sozdat-watchdog-v-python.md)
 
-## Requests
+## Requests, git, setup
 
-* [Тайм-ауты в Python requests](requests/taim-auty-v-python-requests.md)
-* [Установка времени ожидания для запросов Python](requests/ustanovka-vremeni-ozhidaniya-dlya-zaprosov-python.md)
+* [requests](requests-git-setup/requests/README.md)
+  * [Тайм-ауты в Python requests](requests-git-setup/requests/taim-auty-v-python-requests.md)
+  * [Установка времени ожидания для запросов Python](requests-git-setup/requests/ustanovka-vremeni-ozhidaniya-dlya-zaprosov-python.md)
+* [setuptools](requests-git-setup/setuptools/README.md)
+  * [Использование веток Git с Setuptools](requests-git-setup/setuptools/ispolzovanie-vetok-git-s-setuptools.md)

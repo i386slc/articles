@@ -8,7 +8,7 @@
 Авторы:
 {% endhint %}
 
-<figure><img src="../.gitbook/assets/Timeouts-in-Python-requests-Cover-Image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Timeouts-in-Python-requests-Cover-Image.png" alt=""><figcaption></figcaption></figure>
 
 В этом руководстве **вы узнаете, как использовать тайм-ауты в библиотеке запросов Python при работе с любым типом выполняемых HTTP-запросов**. По умолчанию библиотека **requests** не закончит ожидание времени любого вашего запроса, что может привести к тому, что ваша программа будет работать бесконечно, если сервер не отвечает.
 
