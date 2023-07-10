@@ -65,8 +65,9 @@
 
 * [DRF exceptions](drf/drf-exceptions/README.md)
   * [Проверка запросов и обработка пользовательских исключений в DRF](drf/drf-exceptions/proverka-zaprosov-i-obrabotka-polzovatelskikh-isklyuchenii-v-drf.md)
-* [DRF routers](drf/drf-routers.md)
-* [Написание пользовательских маршрутов в DRF Viewsets](drf/napisanie-polzovatelskikh-marshrutov-v-drf-viewsets.md)
+* [DRF routers](drf/drf-routers/README.md)
+  * [Написание пользовательских маршрутов в DRF Viewsets](drf/drf-routers/napisanie-polzovatelskikh-marshrutov-v-drf-viewsets.md)
+  * [Общие и вложенные маршрутизаторы](drf/drf-routers/obshie-i-vlozhennye-marshrutizatory.md)
 
 ## Python
 
