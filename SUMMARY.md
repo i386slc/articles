@@ -71,6 +71,8 @@
 
 ## Python
 
+* [Декораторы, дескрипторы](python/dekoratory-deskriptory/README.md)
+  * [Когда декоратор встречает дескриптор](python/dekoratory-deskriptory/kogda-dekorator-vstrechaet-deskriptor.md)
 * [Работа с файлами](python/rabota-s-failami/README.md)
   * [Как создать Watchdog в Python](python/rabota-s-failami/kak-sozdat-watchdog-v-python.md)
 
