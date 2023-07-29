@@ -29,6 +29,7 @@
   * [Введение в поля выбора Enum для Django](django/django-modeli/vvedenie-v-polya-vybora-enum-dlya-django.md)
   * [Использование пользовательских классов для полей модели](django/django-modeli/ispolzovanie-polzovatelskikh-klassov-dlya-polei-modeli.md)
   * [Поле модели — работа Django ORM — часть 2](django/django-modeli/pole-modeli-rabota-django-orm-chast-2.md)
+  * [Методы переопределения для определения пользовательского поля модели в django](django/django-modeli/metody-pereopredeleniya-dlya-opredeleniya-polzovatelskogo-polya-modeli-v-django.md)
 * [Django запросы (query)](django/django-zaprosy-query/README.md)
   * [Сила Q-объектов Django](django/django-zaprosy-query/sila-q-obektov-django.md)
   * ["Добавление" объектов Q в Django](django/django-zaprosy-query/dobavlenie-obektov-q-v-django.md)
