@@ -50,6 +50,7 @@
   * [Совет #11. Пользовательский менеджер с цепочками запросов](django/django-menedzhery/sovet-11.-polzovatelskii-menedzher-s-cepochkami-zaprosov.md)
 * [Django DB funcs & expressions](django/django-db-funcs-and-expressions/README.md)
   * [Написание пользовательских функций БД](django/django-db-funcs-and-expressions/napisanie-polzovatelskikh-funkcii-bd.md)
+  * [Советы по работе с базами данных](django/django-db-funcs-and-expressions/sovety-po-rabote-s-bazami-dannykh.md)
 * [Django settings](django/django-settings/README.md)
   * [Разница между STATIC\_URL и STATIC\_ROOT](django/django-settings/raznica-mezhdu-static\_url-i-static\_root.md)
 * [Django deploy](django/django-deploy/README.md)
