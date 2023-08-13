@@ -14,7 +14,7 @@
 
 Ниже приведена диаграмма, иллюстрирующая архитектуру **Graylog**.
 
-<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers (1).webp" alt=""><figcaption></figcaption></figure>
 
 **Graylog** предлагает следующие возможности:
 
@@ -275,23 +275,23 @@ sudo ufw allow 9000/tcp
 
 Теперь откройте веб-интерфейс Graylog, используя URL-адрес `http://IP_address:9000`.
 
-<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-1.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-1 (1).webp" alt=""><figcaption></figcaption></figure>
 
 Войдите в систему, используя имя пользователя **admin** и пароль SHA2 (StrongPassw0rd), установленные в YAML.
 
-<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-2.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-2 (1).webp" alt=""><figcaption></figcaption></figure>
 
 На панели инструментов давайте создадим первый **input** для получения журналов, перейдя на вкладку системы и выбрав **input**.
 
-<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-3.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-3 (1).webp" alt=""><figcaption></figcaption></figure>
 
 Теперь найдите **Raw/Plaintext TCP** и нажмите **launch new input**.
 
-<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-4-1.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-4-1 (1).webp" alt=""><figcaption></figcaption></figure>
 
 После запуска появится всплывающее окно, как показано ниже. Вам нужно только изменить имя для входа, порт (1514) и выбрать узел или `"Global"` для местоположения для входа. Остальные детали оставьте как есть.
 
-<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-5.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-5 (1).webp" alt=""><figcaption></figcaption></figure>
 
 Сохраните файл и попробуйте отправить текстовое сообщение на вход **Graylog Raw/Plaintext TCP** через порт **1514**.
 
