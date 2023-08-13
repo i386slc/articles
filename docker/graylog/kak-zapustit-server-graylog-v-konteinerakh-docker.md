@@ -270,3 +270,67 @@ sudo firewall-cmd --reload
 ## Для UFW
 sudo ufw allow 9000/tcp
 ```
+
+## 5. Доступ к веб-интерфейсу Graylog
+
+Теперь откройте веб-интерфейс Graylog, используя URL-адрес `http://IP_address:9000`.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-1.webp" alt=""><figcaption></figcaption></figure>
+
+Войдите в систему, используя имя пользователя **admin** и пароль SHA2 (StrongPassw0rd), установленные в YAML.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-2.webp" alt=""><figcaption></figcaption></figure>
+
+На панели инструментов давайте создадим первый **input** для получения журналов, перейдя на вкладку системы и выбрав **input**.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-3.webp" alt=""><figcaption></figcaption></figure>
+
+Теперь найдите **Raw/Plaintext TCP** и нажмите **launch new input**.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-4-1.webp" alt=""><figcaption></figcaption></figure>
+
+После запуска появится всплывающее окно, как показано ниже. Вам нужно только изменить имя для входа, порт (1514) и выбрать узел или `"Global"` для местоположения для входа. Остальные детали оставьте как есть.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-5.webp" alt=""><figcaption></figcaption></figure>
+
+Сохраните файл и попробуйте отправить текстовое сообщение на вход **Graylog Raw/Plaintext TCP** через порт **1514**.
+
+```bash
+echo 'First log message' | nc localhost 1514
+
+## ИЛИ с другого сервера ##
+
+echo 'First log message' | nc 192.168.205.4 1514
+```
+
+При работающем входе Raw/Plaintext **показывать полученные сообщения**
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-6.webp" alt=""><figcaption></figcaption></figure>
+
+Полученное сообщение должно отображаться, как показано ниже.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-7.webp" alt=""><figcaption></figcaption></figure>
+
+Вы также можете экспортировать это на панель инструментов, как показано ниже.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-8.webp" alt=""><figcaption></figcaption></figure>
+
+Создайте информационную панель, предоставив необходимую информацию.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-9.webp" alt=""><figcaption></figcaption></figure>
+
+Панель инструментов появится на вкладке **dashboard**.
+
+<figure><img src="../../.gitbook/assets/How-To-Run-Graylog-Server-in-Docker-Containers-10.webp" alt=""><figcaption></figcaption></figure>
+
+## Заключение
+
+Вот оно!
+
+Мы с триумфом прошлись по тому, как запустить сервер Graylog в контейнерах Docker. Теперь вы можете легко отслеживать и получать доступ к журналам на нескольких серверах. Я надеюсь, что это было важно для вас.
+
+Похожие сообщения:
+
+* [Install Graylog Server on Debian with Let’s Encrypt](https://computingforgeeks.com/install-graylog-on-debian-with-lets-encrypt-ssl/)
+* [Install Graylog Server on Ubuntu with Let’s Encrypt SSL](https://computingforgeeks.com/install-graylog-on-ubuntu-with-lets-encrypt/)
+* [Install Graylog on CentOS 8 / RHEL 8](https://computingforgeeks.com/how-to-install-graylog-on-centos-rhel/)
