@@ -89,6 +89,8 @@
 
 ## Requests, git, setup
 
+* [dynaconf](requests-git-setup/dynaconf/README.md)
+  * [from dynaconf import settings](requests-git-setup/dynaconf/from-dynaconf-import-settings.md)
 * [requests](requests-git-setup/requests/README.md)
   * [Тайм-ауты в Python requests](requests-git-setup/requests/taim-auty-v-python-requests.md)
   * [Установка времени ожидания для запросов Python](requests-git-setup/requests/ustanovka-vremeni-ozhidaniya-dlya-zaprosov-python.md)
