@@ -166,3 +166,4 @@ def read_from_external_api(url):
 * [Celery Task Priority](https://appliku.com/post/celery-task-priority)
 * [Django Celery Tutorial to Background tasks](https://appliku.com/post/django-celery-tutorial-to-background-tasks)
 * [Celery Groups and Chords](https://appliku.com/post/celery-groups-and-chords)
+* [Rate Limiting Celery Tasks](https://appliku.com/post/rate-limiting-celery-tasks)
