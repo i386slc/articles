@@ -97,3 +97,8 @@
   * [Установка времени ожидания для запросов Python](requests-git-setup/requests/ustanovka-vremeni-ozhidaniya-dlya-zaprosov-python.md)
 * [setuptools](requests-git-setup/setuptools/README.md)
   * [Использование веток Git с Setuptools](requests-git-setup/setuptools/ispolzovanie-vetok-git-s-setuptools.md)
+
+## FastAPI
+
+* [dynaconf+fastapi](fastapi/dynaconf+fastapi/README.md)
+  * [Динамическая настройка приложений Python — FastAPI Pro (часть 1)](fastapi/dynaconf+fastapi/dinamicheskaya-nastroika-prilozhenii-python-fastapi-pro-chast-1.md)
