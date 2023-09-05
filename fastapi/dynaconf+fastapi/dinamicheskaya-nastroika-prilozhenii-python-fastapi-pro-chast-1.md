@@ -98,3 +98,30 @@ JSON удобен, потому что он позволяет представ�
 Журналы наших приложений теперь демонстрируют, что происходит после запуска:
 
 <figure><img src="../../.gitbook/assets/image5.png" alt=""><figcaption></figcaption></figure>
+
+## Тестирование
+
+Изменение недопустимой конфигурации не влияет на наше поведение во время выполнения:
+
+<figure><img src="../../.gitbook/assets/image8-1.png" alt=""><figcaption></figcaption></figure>
+
+С другой стороны, действительные изменения конфигурации автоматически перезагружаются, и мы можем видеть изменения в поведении нашего приложения:
+
+<figure><img src="../../.gitbook/assets/image10.png" alt=""><figcaption></figcaption></figure>
+
+## Заключение
+
+На данный момент это все! Теперь у нас есть динамически настраиваемое веб-приложение. Чтобы проследить за этим, мы можем обобщить нашу фоновую задачу, чтобы реализовать это решение не только для веб-сервера FastAPI, но на сегодняшний день это выходит за рамки.
+
+Если вам понравилась эта статья, вам понравится и другой контент с [веб-сайта VidaVolta](http://vidavolta.io/?ref=vidavolta.io) и [страницы Medium](https://vidavolta.medium.com/?ref=vidavolta.io), где содержатся статьи по темам разработки программного обеспечения.
+
+Чтобы увидеть код, используемый в этой статье, посетите [репозиторий Github](https://github.com/adamcyber1/fastapi-dynamicconfig?ref=vidavolta.io).
+
+## Рекомендации
+
+* [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/?ref=vidavolta.io)
+* [https://github.com/dynaconf/dynaconf](https://github.com/dynaconf/dynaconf?ref=vidavolta.io)
+* [https://johndanielraines.medium.com/write-a-better-config-py-1a443cf5bb36](https://johndanielraines.medium.com/write-a-better-config-py-1a443cf5bb36?ref=vidavolta.io)
+* [https://github.com/celery/celery](https://github.com/celery/celery?ref=vidavolta.io)
+* [https://betterdatascience.com/python-json-configuration-file/](https://betterdatascience.com/python-json-configuration-file/?ref=vidavolta.io)
+* [https://fastapi-utils.davidmontague.xyz/user-guide/repeated-tasks/](https://fastapi-utils.davidmontague.xyz/user-guide/repeated-tasks/?ref=vidavolta.io)
