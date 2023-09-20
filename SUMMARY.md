@@ -19,6 +19,7 @@
   * [Github gist к статье Django+Celery](ocheredi-zadach/celery-docker/github-gist-k-state-django+celery.md)
 * [Celery workflow (chains, groups, etc.)](ocheredi-zadach/celery-workflow-chains-groups-etc./README.md)
   * [Цепи, группы и хорды в Celery](ocheredi-zadach/celery-workflow-chains-groups-etc./cepi-gruppy-i-khordy-v-celery.md)
+  * [Загадочный случай рабочих процессов с Celery](ocheredi-zadach/celery-workflow-chains-groups-etc./zagadochnyi-sluchai-rabochikh-processov-s-celery.md)
 
 ## win32api
 
