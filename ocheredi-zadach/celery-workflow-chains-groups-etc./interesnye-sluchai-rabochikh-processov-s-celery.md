@@ -1,4 +1,4 @@
-# Загадочный случай рабочих процессов с Celery
+# Интересные случаи рабочих процессов с Celery
 
 {% hint style="info" %}
 **Оригинальное название**: [The Curious Case of Celery Work-flows](https://dev.to/akarshan/the-curious-case-of-celery-work-flows-39f7)
@@ -116,7 +116,7 @@ work_flow = chain(
 )
 
 # если мы хотим выразить цепочку с помощью каналов
-work_flow = task_zero | group(task_a(result, arg1), task_b(result, arg2)
+work_flow = task_zero | group(task_a(result, arg1), task_b(result, arg2))
 ```
 
 Обратите внимание, как **Task\_zero** передает результат задачам в группе.
