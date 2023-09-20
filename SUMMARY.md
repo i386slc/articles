@@ -17,6 +17,8 @@
   * [Мульти-Celery внутри докер-контейнера](ocheredi-zadach/celery-docker/multi-celery-vnutri-doker-konteinera.md)
   * [Celery с docker-compose](ocheredi-zadach/celery-docker/celery-s-docker-compose.md)
   * [Github gist к статье Django+Celery](ocheredi-zadach/celery-docker/github-gist-k-state-django+celery.md)
+* [Celery workflow (chains, groups, etc.)](ocheredi-zadach/celery-workflow-chains-groups-etc./README.md)
+  * [Цепи, группы и хорды в Celery](ocheredi-zadach/celery-workflow-chains-groups-etc./cepi-gruppy-i-khordy-v-celery.md)
 
 ## win32api
 
