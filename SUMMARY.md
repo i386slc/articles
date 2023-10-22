@@ -57,7 +57,6 @@
   * [Написание пользовательских функций БД](django/django-db-funcs-and-expressions-and-aggregates/napisanie-polzovatelskikh-funkcii-bd.md)
   * [Советы по работе с базами данных](django/django-db-funcs-and-expressions-and-aggregates/sovety-po-rabote-s-bazami-dannykh.md)
   * [Агрегация с django-filter через прокси-модели](django/django-db-funcs-and-expressions-and-aggregates/agregaciya-s-django-filter-cherez-proksi-modeli.md)
-  * [Пользовательские запросы в Django (lookup)](django/django-db-funcs-and-expressions-and-aggregates/polzovatelskie-zaprosy-v-django-lookup.md)
 * [Django settings](django/django-settings/README.md)
   * [Разница между STATIC\_URL и STATIC\_ROOT](django/django-settings/raznica-mezhdu-static\_url-i-static\_root.md)
 * [Django deploy](django/django-deploy/README.md)
@@ -68,6 +67,9 @@
 * [Django async](django/django-async/README.md)
   * [Планирование задач с помощью APScheduler](django/django-async/planirovanie-zadach-s-pomoshyu-apscheduler.md)
   * [Интеграция APScheduler и django\_apscheduler в проект Django](django/django-async/integraciya-apscheduler-i-django\_apscheduler-v-proekt-django.md)
+* [Django lookup](django/django-lookup/README.md)
+  * [Пользовательские запросы в Django (lookup)](django/django-lookup/polzovatelskie-zaprosy-v-django-lookup.md)
+  * [Пользовательский поиск \_\_date для Django](django/django-lookup/polzovatelskii-poisk-\_\_date-dlya-django.md)
 
 ## docker
 
