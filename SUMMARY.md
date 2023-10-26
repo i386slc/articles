@@ -51,6 +51,7 @@
   * [Работа с вложенными формами в Django](django/django-formy/rabota-s-vlozhennymi-formami-v-django.md)
   * [Django inline formset factory с примерами](django/django-formy/django-inline-formset-factory-s-primerami.md)
   * [Как использовать выбор даты с Django](django/django-formy/kak-ispolzovat-vybor-daty-s-django.md)
+  * [Обработка нескольких входных значений для одного поля формы Django](django/django-formy/obrabotka-neskolkikh-vkhodnykh-znachenii-dlya-odnogo-polya-formy-django.md)
 * [Django менеджеры](django/django-menedzhery/README.md)
   * [Совет #11. Пользовательский менеджер с цепочками запросов](django/django-menedzhery/sovet-11.-polzovatelskii-menedzher-s-cepochkami-zaprosov.md)
 * [Django DB funcs & expressions & aggregates](django/django-db-funcs-and-expressions-and-aggregates/README.md)
