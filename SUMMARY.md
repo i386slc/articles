@@ -2,24 +2,26 @@
 
 * [Главная](README.md)
 
-## Очереди задач
+## Очереди задач, оркестраторы
 
-* [Celery](ocheredi-zadach/celery/README.md)
-  * [Создание удаленного воркера Celery для Flask с отдельной базой кода](ocheredi-zadach/celery/sozdanie-udalennogo-vorkera-celery-dlya-flask-s-otdelnoi-bazoi-koda.md)
-  * [Как вызвать задачу Celery из другого приложения](ocheredi-zadach/celery/kak-vyzvat-zadachu-celery-iz-drugogo-prilozheniya.md)
-  * [Как отправлять сообщения Celery удаленному воркеру](ocheredi-zadach/celery/kak-otpravlyat-soobsheniya-celery-udalennomu-vorkeru.md)
-  * [Масштабирование Celery — отправка задач на удаленные машины](ocheredi-zadach/celery/masshtabirovanie-celery-otpravka-zadach-na-udalennye-mashiny.md)
-  * [Запуск Celery в Windows 10](ocheredi-zadach/celery/zapusk-celery-v-windows-10.md)
-  * [Celery shared\_task](ocheredi-zadach/celery/celery-shared\_task.md)
-* [Celery Docker](ocheredi-zadach/celery-docker/README.md)
-  * [Докеризация Celery и Django](ocheredi-zadach/celery-docker/dokerizaciya-celery-i-django.md)
-  * [Несколько контейнеров Docker и Celery](ocheredi-zadach/celery-docker/neskolko-konteinerov-docker-i-celery.md)
-  * [Мульти-Celery внутри докер-контейнера](ocheredi-zadach/celery-docker/multi-celery-vnutri-doker-konteinera.md)
-  * [Celery с docker-compose](ocheredi-zadach/celery-docker/celery-s-docker-compose.md)
-  * [Github gist к статье Django+Celery](ocheredi-zadach/celery-docker/github-gist-k-state-django+celery.md)
-* [Celery workflow (chains, groups, etc.)](ocheredi-zadach/celery-workflow-chains-groups-etc./README.md)
-  * [Цепи, группы и хорды в Celery](ocheredi-zadach/celery-workflow-chains-groups-etc./cepi-gruppy-i-khordy-v-celery.md)
-  * [Интересные случаи рабочих процессов с Celery](ocheredi-zadach/celery-workflow-chains-groups-etc./interesnye-sluchai-rabochikh-processov-s-celery.md)
+* [Airflow](ocheredi-zadach-orkestratory/airflow/README.md)
+  * [Краткое руководство: как запустить Apache Airflow с помощью docker-compose](ocheredi-zadach-orkestratory/airflow/kratkoe-rukovodstvo-kak-zapustit-apache-airflow-s-pomoshyu-docker-compose.md)
+* [Celery](ocheredi-zadach-orkestratory/celery/README.md)
+  * [Создание удаленного воркера Celery для Flask с отдельной базой кода](ocheredi-zadach-orkestratory/celery/sozdanie-udalennogo-vorkera-celery-dlya-flask-s-otdelnoi-bazoi-koda.md)
+  * [Как вызвать задачу Celery из другого приложения](ocheredi-zadach-orkestratory/celery/kak-vyzvat-zadachu-celery-iz-drugogo-prilozheniya.md)
+  * [Как отправлять сообщения Celery удаленному воркеру](ocheredi-zadach-orkestratory/celery/kak-otpravlyat-soobsheniya-celery-udalennomu-vorkeru.md)
+  * [Масштабирование Celery — отправка задач на удаленные машины](ocheredi-zadach-orkestratory/celery/masshtabirovanie-celery-otpravka-zadach-na-udalennye-mashiny.md)
+  * [Запуск Celery в Windows 10](ocheredi-zadach-orkestratory/celery/zapusk-celery-v-windows-10.md)
+  * [Celery shared\_task](ocheredi-zadach-orkestratory/celery/celery-shared\_task.md)
+* [Celery Docker](ocheredi-zadach-orkestratory/celery-docker/README.md)
+  * [Докеризация Celery и Django](ocheredi-zadach-orkestratory/celery-docker/dokerizaciya-celery-i-django.md)
+  * [Несколько контейнеров Docker и Celery](ocheredi-zadach-orkestratory/celery-docker/neskolko-konteinerov-docker-i-celery.md)
+  * [Мульти-Celery внутри докер-контейнера](ocheredi-zadach-orkestratory/celery-docker/multi-celery-vnutri-doker-konteinera.md)
+  * [Celery с docker-compose](ocheredi-zadach-orkestratory/celery-docker/celery-s-docker-compose.md)
+  * [Github gist к статье Django+Celery](ocheredi-zadach-orkestratory/celery-docker/github-gist-k-state-django+celery.md)
+* [Celery workflow (chains, groups, etc.)](ocheredi-zadach-orkestratory/celery-workflow-chains-groups-etc./README.md)
+  * [Цепи, группы и хорды в Celery](ocheredi-zadach-orkestratory/celery-workflow-chains-groups-etc./cepi-gruppy-i-khordy-v-celery.md)
+  * [Интересные случаи рабочих процессов с Celery](ocheredi-zadach-orkestratory/celery-workflow-chains-groups-etc./interesnye-sluchai-rabochikh-processov-s-celery.md)
 
 ## win32api
 
