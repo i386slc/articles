@@ -111,3 +111,8 @@
 
 * [dynaconf+fastapi](fastapi/dynaconf+fastapi/README.md)
   * [Динамическая настройка приложений Python — FastAPI Pro (часть 1)](fastapi/dynaconf+fastapi/dinamicheskaya-nastroika-prilozhenii-python-fastapi-pro-chast-1.md)
+
+## WEB-серверы
+
+* [NGINX](web-servery/nginx/README.md)
+  * [Nginx PHP не работает при загрузке больших файлов (более 6 ГБ)](web-servery/nginx/nginx-php-ne-rabotaet-pri-zagruzke-bolshikh-failov-bolee-6-gb.md)
