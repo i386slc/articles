@@ -147,3 +147,5 @@ pyenv uninstall <environment_name or python version>
 ```
 
 <figure><img src="../../.gitbook/assets/pyenv-8.webp" alt=""><figcaption></figcaption></figure>
+
+## 3. Простой вариант использования в VS Code
