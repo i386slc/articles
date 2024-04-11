@@ -58,3 +58,92 @@ eval "$(pyenv virtualenv-init -)"
 <figure><img src="../../.gitbook/assets/pyenv-2.webp" alt=""><figcaption></figcaption></figure>
 
 Установив pyenv и pyenv-virtualenv, мы можем перейти к следующей части!
+
+## 2. Обзор команд
+
+В этой части вы узнаете команды pyenv, которые будете использовать чаще всего:
+
+* `pyenv install`: установка новой версии Python.
+* `pyenv update`: обновление pyenv
+* `pyenv virtualenv`: для создания новой виртуальной среды Python.
+* `pyenv active`: для активации ранее созданной виртуальной среды.
+* `source deactivate`: деактивировать виртуальную среду, используемую в данный момент.
+* `pyenv uninstall`: Чтобы удалить виртуальную среду или версию Python.
+
+### 2.1 Установите новую версию Python
+
+Используя pyenv, вы можете установить новую версию Python, скажем, 3.11.3. Сначала вы можете ввести эту команду в своем терминале:
+
+```bash
+pyenv install -l
+```
+
+Он покажет все доступные версии Python.
+
+<figure><img src="../../.gitbook/assets/pyenv-3.webp" alt=""><figcaption></figcaption></figure>
+
+В списке вы увидите версию 3.11.3, которую можно установить с помощью:
+
+```bash
+pyenv install 3.11.3
+```
+
+<figure><img src="../../.gitbook/assets/pyenv-4.webp" alt=""><figcaption></figcaption></figure>
+
+### 2.2 Обновление pyenv
+
+Новые версии Python выпускаются регулярно. Если вы хотите установить последнюю версию, все, что вам нужно сделать, это запустить команду:
+
+```bash
+pyenv update
+```
+
+<figure><img src="../../.gitbook/assets/pyenv-5.webp" alt=""><figcaption></figcaption></figure>
+
+Он обновит pyenv и список версий Python, доступных для установки.
+
+### 2.3 Создайте виртуальную среду
+
+После установки версии Python все, что вам нужно сделать для создания среды, — это ввести:
+
+```bash
+pyenv virtualenv <python_version> <environment_name>
+```
+
+Что в нашем случае может быть:
+
+```bash
+pyenv virtualenv 3.11.3 test_environment
+```
+
+<figure><img src="../../.gitbook/assets/pyenv-6.webp" alt=""><figcaption></figcaption></figure>
+
+### 2.4 Активируйте виртуальную среду
+
+Чтобы использовать существующую виртуальную среду, вы можете активировать ее, набрав:
+
+```bash
+pyenv activate <environment_name>
+```
+
+После активации каждый установленный пакет и запущенный скрипт Python будут находиться в этой среде.
+
+<figure><img src="../../.gitbook/assets/pyenv-7.webp" alt=""><figcaption></figcaption></figure>
+
+### 2.5 Деактивация виртуальной среды
+
+Если вы хотите выйти из текущей виртуальной среды, вы можете деактивировать ее, введя команду:
+
+```bash
+source deactivate
+```
+
+### 2.6 Удаление среды или версии Python
+
+Если вам больше не нужна среда или версия Python, вы можете удалить ее, используя:
+
+```bash
+pyenv uninstall <environment_name or python version>
+```
+
+<figure><img src="../../.gitbook/assets/pyenv-8.webp" alt=""><figcaption></figcaption></figure>
