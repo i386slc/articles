@@ -106,6 +106,8 @@
   * [Установка времени ожидания для запросов Python](requests-git-setup/requests/ustanovka-vremeni-ozhidaniya-dlya-zaprosov-python.md)
 * [setuptools](requests-git-setup/setuptools/README.md)
   * [Использование веток Git с Setuptools](requests-git-setup/setuptools/ispolzovanie-vetok-git-s-setuptools.md)
+* [pyenv](requests-git-setup/pyenv/README.md)
+  * [Python: управление версиями с помощью Pyenv и Pyenv-Virtualenv (Linux)](requests-git-setup/pyenv/python-upravlenie-versiyami-s-pomoshyu-pyenv-i-pyenv-virtualenv-linux.md)
 
 ## FastAPI
 
