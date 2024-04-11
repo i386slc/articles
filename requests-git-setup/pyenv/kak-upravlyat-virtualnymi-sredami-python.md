@@ -149,3 +149,24 @@ pyenv uninstall <environment_name or python version>
 <figure><img src="../../.gitbook/assets/pyenv-8.webp" alt=""><figcaption></figcaption></figure>
 
 ## 3. Простой вариант использования в VS Code
+
+Зная все основные команды pyenv, мы можем рассмотреть простой пример их применения.
+
+Коллега работает над анализом и хочет поделиться с вами исходными кодами через этот [репозиторий GitHub](https://github.com/adocquin/medium\_pyenv). Они используют Python 3.10.2 и конкретную версию pandas, указанную в файле `requirement.txt`.
+
+Первым шагом является создание среды и установка пакетов. Перейдите в каталог репозитория (medium\_pyenv) и выполните следующие команды:
+
+```bash
+pyenv install 3.10.2
+pyenv virtualenv 3.10.2 titanic_analysis
+pyenv activate titanic_analysis
+pip install -r requirements.txt
+```
+
+<figure><img src="../../.gitbook/assets/pyenv-9.gif" alt=""><figcaption></figcaption></figure>
+
+Теперь откройте блокнот `analysis.ipynb` в VS Code и выберите новую среду в качестве ядра в правом верхнем углу экрана (`Select Kernel -> Select Another Kernel... -> Python Environments... -> titanic_analysis (Python)`) :
+
+<figure><img src="../../.gitbook/assets/pyenv-10.gif" alt=""><figcaption></figcaption></figure>
+
+Чтобы редактировать исходные коды в новой среде, откройте палитру команд (`⇧⌘P` на Mac и `Ctrl⇧P` на Ubuntu) в `src/environment.py` и выберите `Python: Select Interpreter -> Python 3.10.2 64-bit (titanic_analysis )` .
