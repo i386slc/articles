@@ -51,11 +51,11 @@ eval "$(pyenv virtualenv-init -)"
 
 Перезагрузите терминал, и вы сможете запустить команду `pyenv`, которая выведет список возможных параметров.
 
-<figure><img src="../../.gitbook/assets/pyenv-1.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-1.webp" alt=""><figcaption><p>Вывод команды pyenv после установки.</p></figcaption></figure>
 
 Мы также проверим, работает ли команда `pyenv virtualenv`. В этом случае он должен возвращать `no virtualenv name given`, поскольку для его создания необходимо указать имя среды.
 
-<figure><img src="../../.gitbook/assets/pyenv-2.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-2.webp" alt=""><figcaption><p>Имя среды, с которой вы хотите взаимодействовать, должно следовать за командой pyenv virtualenv.</p></figcaption></figure>
 
 Установив pyenv и pyenv-virtualenv, мы можем перейти к следующей части!
 
@@ -80,7 +80,7 @@ pyenv install -l
 
 Он покажет все доступные версии Python.
 
-<figure><img src="../../.gitbook/assets/pyenv-3.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-3.webp" alt=""><figcaption><p>Версия 3.11.3 не показана на этом снимке экрана из-за большого количества доступных версий Python.</p></figcaption></figure>
 
 В списке вы увидите версию 3.11.3, которую можно установить с помощью:
 
@@ -88,7 +88,7 @@ pyenv install -l
 pyenv install 3.11.3
 ```
 
-<figure><img src="../../.gitbook/assets/pyenv-4.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-4.webp" alt=""><figcaption><p>Всего за 2 минуты в вашей системе будет доступен Python 3.11.3.</p></figcaption></figure>
 
 ### 2.2 Обновление pyenv
 
@@ -98,7 +98,7 @@ pyenv install 3.11.3
 pyenv update
 ```
 
-<figure><img src="../../.gitbook/assets/pyenv-5.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-5.webp" alt=""><figcaption><p>В этом случае последняя версия pyenv уже установлена.</p></figcaption></figure>
 
 Он обновит pyenv и список версий Python, доступных для установки.
 
@@ -116,7 +116,7 @@ pyenv virtualenv <python_version> <environment_name>
 pyenv virtualenv 3.11.3 test_environment
 ```
 
-<figure><img src="../../.gitbook/assets/pyenv-6.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-6.webp" alt=""><figcaption><p>В случае успешного создания среды команды не возвращают никаких результатов.</p></figcaption></figure>
 
 ### 2.4 Активируйте виртуальную среду
 
@@ -128,7 +128,7 @@ pyenv activate <environment_name>
 
 После активации каждый установленный пакет и запущенный скрипт Python будут находиться в этой среде.
 
-<figure><img src="../../.gitbook/assets/pyenv-7.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-7.webp" alt=""><figcaption><p>Как видите, Python 3.11.3 выполняется.</p></figcaption></figure>
 
 ### 2.5 Деактивация виртуальной среды
 
@@ -138,6 +138,8 @@ pyenv activate <environment_name>
 source deactivate
 ```
 
+<figure><img src="../../.gitbook/assets/pyenv-99.webp" alt=""><figcaption><p>После запуска деактивации источника вы вернетесь к своей версии системы Python.</p></figcaption></figure>
+
 ### 2.6 Удаление среды или версии Python
 
 Если вам больше не нужна среда или версия Python, вы можете удалить ее, используя:
@@ -146,7 +148,7 @@ source deactivate
 pyenv uninstall <environment_name or python version>
 ```
 
-<figure><img src="../../.gitbook/assets/pyenv-8.webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-8.webp" alt=""><figcaption><p>И test_environment, и Python 3.11.3 теперь удалены.</p></figcaption></figure>
 
 ## 3. Простой вариант использования в VS Code
 
@@ -163,10 +165,22 @@ pyenv activate titanic_analysis
 pip install -r requirements.txt
 ```
 
-<figure><img src="../../.gitbook/assets/pyenv-9.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-9.gif" alt=""><figcaption><p>Ваша среда анализа теперь готова.</p></figcaption></figure>
 
 Теперь откройте блокнот `analysis.ipynb` в VS Code и выберите новую среду в качестве ядра в правом верхнем углу экрана (`Select Kernel -> Select Another Kernel... -> Python Environments... -> titanic_analysis (Python)`) :
 
-<figure><img src="../../.gitbook/assets/pyenv-10.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pyenv-10.gif" alt=""><figcaption><p>Возможно, вам придется перезапустить VS Code, чтобы увидеть вновь созданную среду.</p></figcaption></figure>
 
-Чтобы редактировать исходные коды в новой среде, откройте палитру команд (`⇧⌘P` на Mac и `Ctrl⇧P` на Ubuntu) в `src/environment.py` и выберите `Python: Select Interpreter -> Python 3.10.2 64-bit (titanic_analysis )` .
+Чтобы редактировать исходные коды в новой среде, откройте палитру команд (`⇧⌘P` на Mac и `Ctrl⇧P` на Ubuntu) в `src/environment.py` и выберите ``Python: Select Interpreter -> Python 3.10.2 64-bit (`titanic_analysis`)`` .
+
+<figure><img src="../../.gitbook/assets/pyenv-11.gif" alt=""><figcaption><p>Если вы не выполните этот шаг, код будет выполнен под версией системного Python.</p></figcaption></figure>
+
+Вы можете запустить этот файл, щелкнув `Right clic -> Run Python -> Run Python File in Terminal` или открыв терминал и запустив `python engineering.py`.
+
+<figure><img src="../../.gitbook/assets/pyenv-12.gif" alt=""><figcaption><p>Теперь вы можете продолжить работу над анализом в этой специальной среде Python.</p></figcaption></figure>
+
+## 4. Заключение
+
+Подводя итог, можно сказать, что использование pyenv и pyenv-virtualenv позволит вам управлять несколькими версиями и средами Python, избегая конфликтов и головной боли при работе с пакетами.
+
+Теперь, когда у вас есть способ последовательно управлять своими виртуальными средами, вы сможете легко переключаться между ними и делиться проектами со своими коллегами.
