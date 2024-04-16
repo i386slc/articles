@@ -16,18 +16,18 @@
 
 ## Оглавление
 
-1. Проблема с блокировкой цикла событий
-2. Запустить функцию в новом потоке с помощью to\_thread()
-3. Как использовать to\_thread()
-4. Пример блокировки цикла событий Asyncio
-5. Запуск функции блокировки в новом потоке
-   1. Какая разница?
-6. Запуск функции блокировки с аргументами в новом потоке
-7. Запуск функции блокировки с возвращаемым значением в новом потоке
-8. Независимое выполнение функции блокировки в новом потоке
-9. Пример отчета о деталях новой темы
-10. Дальнейшее чтение
-11. Заключение
+1. [Проблема с блокировкой цикла событий](kak-ispolzovat-asyncio-to\_thread.md#problema-s-blokirovkoi-cikla-sobytii)
+2. [Запустить функцию в новом потоке с помощью to\_thread()](kak-ispolzovat-asyncio-to\_thread.md#zapusk-funkcii-v-novom-potoke-s-pomoshyu-to\_thread)
+3. [Как использовать to\_thread()](kak-ispolzovat-asyncio-to\_thread.md#kak-ispolzovat-to\_thread)
+4. [Пример блокировки цикла событий Asyncio](kak-ispolzovat-asyncio-to\_thread.md#primer-blokirovki-cikla-sobytii-asyncio)
+5. [Запуск функции блокировки в новом потоке](kak-ispolzovat-asyncio-to\_thread.md#zapusk-blokiruyushei-funkcii-v-novom-potoke)
+   1. [Какая разница?](kak-ispolzovat-asyncio-to\_thread.md#kakaya-raznica)
+6. [Запуск функции блокировки с аргументами в новом потоке](kak-ispolzovat-asyncio-to\_thread.md#zapusk-blokiruyushei-funkcii-s-argumentami-v-novom-potoke)
+7. [Запуск функции блокировки с возвращаемым значением в новом потоке](kak-ispolzovat-asyncio-to\_thread.md#zapusk-blokiruyushei-funkcii-s-vozvrashaemym-znacheniem-v-novom-potoke)
+8. [Независимое выполнение функции блокировки в новом потоке](kak-ispolzovat-asyncio-to\_thread.md#nezavisimoe-vypolnenie-blokiruyushei-funkcii-v-novom-potoke)
+9. [Пример отчета о деталях новой темы](kak-ispolzovat-asyncio-to\_thread.md#primer-otcheta-o-detalyakh-novogo-potoka)
+10. [Дальнейшее чтение](kak-ispolzovat-asyncio-to\_thread.md#dalneishee-chtenie)
+11. [Заключение](kak-ispolzovat-asyncio-to\_thread.md#zaklyuchenie)
 
 ## Проблема с блокировкой цикла событий
 
@@ -389,3 +389,159 @@ Got: 100
 ```
 
 Далее давайте посмотрим, как мы можем независимо выполнить блокирующий вызов в новом потоке.
+
+## Независимое выполнение блокирующей функции в новом потоке
+
+Мы можем изучить, как независимо выполнить блокирующий вызов в новом потоке.
+
+В этом примере мы обновляем основную сопрограмму, чтобы создать и запланировать новую задачу для выполнения сопрограммы для запуска блокирующей функции в новом потоке.
+
+Основная сопрограмма продолжает выполнять другие действия, позволяя задаче выполняться независимо.
+
+Полный пример приведен ниже.
+
+```python
+# SuperFastPython.com
+# пример независимого запуска вызова блокирующей функции в asyncio в новом потоке
+import time
+import asyncio
+ 
+# блокирующая функция
+def blocking_task():
+    # вывод сообщения
+    print('task is running')
+    # блокировка
+    time.sleep(2)
+    # вывод сообщения
+    print('task is done')
+ 
+# основная корутина
+async def main():
+    # создать сопрограмму для вызова блокирующей функции
+    coro = asyncio.to_thread(blocking_task)
+    # выполнить вызов в новом потоке независимо
+    task = asyncio.create_task(coro)
+    # подождите минутку
+    await asyncio.sleep(2.1)
+ 
+# запустить программу asyncio
+asyncio.run(main())
+```
+
+При выполнении примера сначала создается сопрограмма `main()` и используется она как вход в программу asyncio.
+
+Сопрограмма `main()` запускается и создает сопрограмму для запуска фоновой задачи в новом потоке.
+
+Затем эта новая сопрограмма помещается в новый `asyncio.Task` и планируется к выполнению.
+
+Затем сопрограмма `main()` приостанавливается и на некоторое время засыпает.
+
+Новая сопрограмма запускается и выполняет новую задачу асинхронно в новом потоке.
+
+Сопрограмма `main()` возобновляет работу через некоторое время, достаточное для завершения задачи в новом потоке, и завершает программу.
+
+Это подчеркивает, что нам не нужно напрямую ожидать сопрограмму для блокирующей функции, выполняемой в новом потоке, чтобы ее можно было запланировать для независимого выполнения.
+
+```bash
+task is running
+task is done
+```
+
+Далее давайте посмотрим на детали потока, который выполняет блокирующий вызов.
+
+## Пример отчета о деталях нового потока
+
+Мы можем изучить свойства потока, используемого для выполнения блокирующих вызовов.
+
+В этом примере мы обновим блокирующую функцию, чтобы получить текущий поток с помощью вызова `threading.current_thread()`. Это возвращает экземпляр `threading.Thread`, представляющий поток, выполняющий функцию.
+
+Затем функция сообщает подробную информацию о потоке, выполняющем блокирующую функцию, включая имя и то, является ли это потоком демона или нет.
+
+Полный пример приведен ниже.
+
+```python
+# SuperFastPython.com
+# пример запуска вызова блокирующей функции в asyncio в новом потоке
+import time
+import asyncio
+import threading
+ 
+# блокирующая функция
+def blocking_task():
+    # выводит сообщение
+    print('task is running')
+    # блокировка
+    time.sleep(2)
+    # выводит детали потока
+    thread = threading.current_thread()
+    print(f'name={thread.name}, daemon={thread.daemon}')
+ 
+# основная корутина
+async def main():
+    # создать сопрограмму для вызова блокирующей функции
+    coro = asyncio.to_thread(blocking_task)
+    # выполнить вызов в новом потоке и дождаться результата
+    await coro
+ 
+# запустить программу asyncio
+asyncio.run(main())
+```
+
+При выполнении примера сначала создается сопрограмма `main()` и используется она как вход в программу asyncio.
+
+Сопрограмма `main()` запускается и создает сопрограмму для запуска фоновой задачи в новом потоке, а затем ожидает эту сопрограмму.
+
+Сопрограмма `main()` приостанавливается, а новая сопрограмма запускается, запускает поток и выполняет блокирующую функцию в новом потоке.
+
+Блокирующая функция сообщает имя потока и является ли он демоном.
+
+Мы видим, что у потока есть имя, указывающее, что он связан с asyncio, например, `«asyncio_0»` и что это не поток демона, например, не фоновый поток.
+
+Поскольку новый поток не является потоком демона, это означает, что этот поток будет препятствовать выходу основного потока.
+
+```bash
+task is running
+name=asyncio_0, daemon=False
+```
+
+## Дальнейшее чтение
+
+В этом разделе представлены дополнительные ресурсы, которые могут оказаться вам полезными.
+
+Книги по Python Asyncio
+
+* [Python Asyncio Mastery](https://superfastpython.com/pam-further-reading), Jason Brownlee (_**my book!**_)
+* [Python Asyncio Jump-Start](https://superfastpython.com/paj-further-reading), Jason Brownlee.
+* [Python Asyncio Interview Questions](https://superfastpython.com/python-asyncio-interview-questions/), Jason Brownlee.
+* [Asyncio Module API Cheat Sheet](https://marvelous-writer-6152.ck.page/d29b7d8dfb)
+
+Также рекомендую следующие книги:
+
+* [Python Concurrency with asyncio](https://amzn.to/3LZvxNn), Matthew Fowler, 2022.
+* [Using Asyncio in Python](https://amzn.to/3lNp2ml), Caleb Hattingh, 2020.
+* [asyncio Recipes](https://amzn.to/47oN8dk), Mohamed Mustapha Tahrioui, 2019.
+
+Статьи
+
+* [Python Asyncio: The Complete Guide](https://superfastpython.com/python-asyncio/)
+* [Python Asynchronous Programming](https://superfastpython.com/python-asynchronous-programming/)
+
+API
+
+* [asyncio — Asynchronous I/O](https://docs.python.org/3/library/asyncio.html)
+* [Asyncio Coroutines and Tasks](https://docs.python.org/3/library/asyncio-task.html)
+* [Asyncio Streams](https://docs.python.org/3/library/asyncio-stream.html)
+* [Asyncio Subprocesses](https://docs.python.org/3/library/asyncio-subprocess.html)
+* [Asyncio Queues](https://docs.python.org/3/library/asyncio-queue.html)
+* [Asyncio Synchronization Primitives](https://docs.python.org/3/library/asyncio-sync.html)
+
+Ссылки
+
+* [Asynchronous I/O, Wikipedia](https://en.wikipedia.org/wiki/Asynchronous\_I/O).
+* [Coroutine, Wikipedia](https://en.wikipedia.org/wiki/Coroutine).
+
+## Заключение
+
+Теперь вы знаете, как выполнять блокирующие функции в новых потоках отдельно от цикла событий asyncio.
+
+Есть вопросы? Задавайте свои вопросы в комментариях ниже, и я постараюсь ответить.
