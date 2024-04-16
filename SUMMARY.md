@@ -98,6 +98,7 @@
   * [Как создать Watchdog в Python](python/rabota-s-failami/kak-sozdat-watchdog-v-python.md)
 * [Асинхронная работа](python/asinkhronnaya-rabota/README.md)
   * [Асинхронные запросы в Python](python/asinkhronnaya-rabota/asinkhronnye-zaprosy-v-python.md)
+  * [Как использовать asyncio to\_thread()](python/asinkhronnaya-rabota/kak-ispolzovat-asyncio-to\_thread.md)
 
 ## Requests, git, setup
 
