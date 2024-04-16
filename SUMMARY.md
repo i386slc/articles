@@ -96,6 +96,8 @@
   * [Класс декоратора Python для оформления автономных функций и методов объектов](python/dekoratory-deskriptory/klass-dekoratora-python-dlya-oformleniya-avtonomnykh-funkcii-i-metodov-obektov.md)
 * [Работа с файлами](python/rabota-s-failami/README.md)
   * [Как создать Watchdog в Python](python/rabota-s-failami/kak-sozdat-watchdog-v-python.md)
+* [Асинхронная работа](python/asinkhronnaya-rabota/README.md)
+  * [Асинхронные запросы в Python](python/asinkhronnaya-rabota/asinkhronnye-zaprosy-v-python.md)
 
 ## Requests, git, setup
 
