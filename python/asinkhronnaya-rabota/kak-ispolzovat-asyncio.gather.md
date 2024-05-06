@@ -1307,4 +1307,42 @@ asyncio.exceptions.CancelledError
 
 ## 6. Дальнейшее чтение
 
+В этом разделе представлены дополнительные ресурсы, которые могут оказаться вам полезными.
+
+Книги по Python Asyncio
+
+* [Python Asyncio Mastery](https://superfastpython.com/pam-further-reading), Jason Brownlee (_**my book!**_)
+* [Python Asyncio Jump-Start](https://superfastpython.com/paj-further-reading), Jason Brownlee.
+* [Python Asyncio Interview Questions](https://superfastpython.com/python-asyncio-interview-questions/), Jason Brownlee.
+* [Asyncio Module API Cheat Sheet](https://marvelous-writer-6152.ck.page/d29b7d8dfb)
+
+Также рекомендую следующие книги:
+
+* [Python Concurrency with asyncio](https://amzn.to/3LZvxNn), Matthew Fowler, 2022.
+* [Using Asyncio in Python](https://amzn.to/3lNp2ml), Caleb Hattingh, 2020.
+* [asyncio Recipes](https://amzn.to/47oN8dk), Mohamed Mustapha Tahrioui, 2019.
+
+Путеводители
+
+* [Python Asyncio: The Complete Guide](https://superfastpython.com/python-asyncio/)
+* [Python Asynchronous Programming](https://superfastpython.com/python-asynchronous-programming/)
+
+API
+
+* [asyncio — Asynchronous I/O](https://docs.python.org/3/library/asyncio.html)
+* [Asyncio Coroutines and Tasks](https://docs.python.org/3/library/asyncio-task.html)
+* [Asyncio Streams](https://docs.python.org/3/library/asyncio-stream.html)
+* [Asyncio Subprocesses](https://docs.python.org/3/library/asyncio-subprocess.html)
+* [Asyncio Queues](https://docs.python.org/3/library/asyncio-queue.html)
+* [Asyncio Synchronization Primitives](https://docs.python.org/3/library/asyncio-sync.html)
+
+Ссылки
+
+* [Asynchronous I/O, Wikipedia](https://en.wikipedia.org/wiki/Asynchronous\_I/O).
+* [Coroutine, Wikipedia](https://en.wikipedia.org/wiki/Coroutine).
+
 ## 7. Заключение
+
+Теперь вы знаете, как запускать задачи asyncio одновременно с gather() в Python.
+
+Есть вопросы? Задавайте свои вопросы в комментариях ниже, и я постараюсь ответить.
