@@ -99,6 +99,7 @@
 * [Асинхронная работа](python/asinkhronnaya-rabota/README.md)
   * [Асинхронные запросы в Python](python/asinkhronnaya-rabota/asinkhronnye-zaprosy-v-python.md)
   * [Как использовать asyncio to\_thread()](python/asinkhronnaya-rabota/kak-ispolzovat-asyncio-to\_thread.md)
+  * [Как использовать asyncio.gather()](python/asinkhronnaya-rabota/kak-ispolzovat-asyncio.gather.md)
 
 ## Requests, git, setup
 
