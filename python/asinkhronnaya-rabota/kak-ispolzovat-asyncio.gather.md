@@ -459,9 +459,8 @@ await asyncio.gather(*coros)
 
 Ниже приведен полный пример запуска списка заранее подготовленных сопрограмм с помощью метода gather().
 
-```python
-# SuperFastPython.com
-# пример сбора множества сопрограмм в списке
+<pre class="language-python"><code class="lang-python"><strong># SuperFastPython.com
+</strong># пример сбора множества сопрограмм в списке
 import asyncio
  
 # сопрограмма, используемая для задачи
@@ -484,7 +483,7 @@ async def main():
  
 # старт асинхронной задачи
 asyncio.run(main())
-```
+</code></pre>
 
 При выполнении примера выполняется сопрограмма main() как точка входа в программу.
 
@@ -1166,7 +1165,145 @@ asyncio.exceptions.CancelledError
 
 ### 5.1. Пример ошибки gather() со списком
 
+Вероятно, наиболее распространенная ошибка при использовании функции gather() возникает при предоставлении функции списка ожидаемых объектов.
+
+Например:
+
+```python
+...
+# создание множества сопрограмм
+coros = [task_coro(i) for i in range(10)]
+# запуск задач
+await asyncio.gather(coros)
+```
+
+Это проблема, поскольку функция gather() не принимает список ожидаемых объектов, а принимает несколько ожидаемых объектов в качестве отдельных позиционных аргументов.
+
+Пример ниже демонстрирует эту распространенную ошибку.
+
+```python
+# SuperFastPython.com
+# пример gather со списком, который приводит к ошибке
+import asyncio
+ 
+# сопрограмма, используемая для задачи
+async def task_coro(value):
+    # выводит сообщение
+    print(f'>task {value} executing')
+    # засыпает на время
+    await asyncio.sleep(1)
+ 
+# сопрограмма, используемая для точки входа
+async def main():
+    # выводит сообщение
+    print('main starting')
+    # создание множества сопрограмм
+    coros = [task_coro(i) for i in range(10)]
+    # запуск задач
+    await asyncio.gather(coros)
+    # выводит сообщение
+    print('main done')
+ 
+# старт асинхронной задачи
+asyncio.run(main())
+```
+
+При выполнении примера создается и запускается сопрограмма main() в качестве точки входа в программу.
+
+Он выводит сообщение, а затем создает список сопрограмм.
+
+Затем сопрограммам предоставляется вызов функции gather().
+
+Это не удается из-за TypeError.
+
+Причина в том, что функция gather() ожидает отдельные ожидаемые аргументы (например, переменное количество ожидаемых аргументов), а не список аргументов.
+
+```bash
+main starting
+Traceback (most recent call last):
+  ...
+TypeError: unhashable type: 'list'
+sys:1: RuntimeWarning: coroutine 'task_coro' was never awaited
+```
+
 ### 5.2. Пример ошибки gather() без ожидания await
+
+Другая распространенная ошибка — вызвать метод gather(), но не дать задачам возможности выполниться.
+
+Напомним, что когда мы вызываем метод gather(), все ожидаемые объекты будут запланированы к выполнению.
+
+Нам не нужно ждать Future, возвращаемого функцией gather().
+
+Тем не менее, нам нужно дать ожидающим объектам возможность выполниться.
+
+Этого можно добиться, приостановив вызывающую сопрограмму, например, ожидая вызова sleep() или какой-либо другой задачи.
+
+Если этого не сделать, сопрограммы будут запланированы и никогда не выполняются, и программа завершится.
+
+Пример ниже демонстрирует эту проблему.
+
+```python
+# SuperFastPython.com
+# пример gather без ожидания приводит к ошибке
+import asyncio
+ 
+# сопрограмма, используемая для задачи
+async def task_coro(value):
+    # выводит сообщение
+    print(f'>task {value} executing')
+    # засыпает на время
+    await asyncio.sleep(1)
+ 
+# сопрограмма, используемая для точки входа
+async def main():
+    # выводит сообщение
+    print('main starting')
+    # создание множества сопрограмм
+    coros = [task_coro(i) for i in range(10)]
+    # запуск задач
+    asyncio.gather(*coros)
+    # выводит сообщение
+    print('main done')
+ 
+# старт асинхронной задачи
+asyncio.run(main())
+```
+
+При выполнении примера создается и запускается сопрограмма main() в качестве точки входа в программу.
+
+Она выводит сообщение, а затем создает список сопрограмм.
+
+Затем сопрограммам предоставляется вызов функции gather().
+
+Сопрограмма main() затем выводит сообщение и завершает работу программы.
+
+Запланированным задачам никогда не предоставляется возможность выполнения.
+
+Сборщик мусора пытается отменить запланированные задачи, о чем сообщается до того, как программа завершает работу.
+
+```bash
+main starting
+main done
+>task 0 executing
+>task 1 executing
+>task 2 executing
+>task 3 executing
+>task 4 executing
+>task 5 executing
+>task 6 executing
+>task 7 executing
+>task 8 executing
+>task 9 executing
+_GatheringFuture exception was never retrieved
+future: <_GatheringFuture finished exception=CancelledError()>
+Traceback (most recent call last):
+  ...
+asyncio.exceptions.CancelledError
+ 
+During handling of the above exception, another exception occurred:
+ 
+asyncio.exceptions.CancelledError
+```
 
 ## 6. Дальнейшее чтение
 
