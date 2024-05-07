@@ -113,6 +113,8 @@
 * [pyenv](requests-git-setup/pyenv/README.md)
   * [Python: управление версиями с помощью Pyenv и Pyenv-Virtualenv (Linux)](requests-git-setup/pyenv/python-upravlenie-versiyami-s-pomoshyu-pyenv-i-pyenv-virtualenv-linux.md)
   * [Как управлять виртуальными средами Python](requests-git-setup/pyenv/kak-upravlyat-virtualnymi-sredami-python.md)
+* [gunicorn](requests-git-setup/gunicorn/README.md)
+  * [Повышение производительности за счет оптимизации конфигурации Gunicorn](requests-git-setup/gunicorn/povyshenie-proizvoditelnosti-za-schet-optimizacii-konfiguracii-gunicorn.md)
 
 ## FastAPI
 
