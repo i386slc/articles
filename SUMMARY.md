@@ -115,6 +115,7 @@
   * [Как управлять виртуальными средами Python](requests-git-setup/pyenv/kak-upravlyat-virtualnymi-sredami-python.md)
 * [gunicorn](requests-git-setup/gunicorn/README.md)
   * [Повышение производительности за счет оптимизации конфигурации Gunicorn](requests-git-setup/gunicorn/povyshenie-proizvoditelnosti-za-schet-optimizacii-konfiguracii-gunicorn.md)
+  * [Как правильно выбрать тип воркера Gunicorn для прода](requests-git-setup/gunicorn/kak-pravilno-vybrat-tip-vorkera-gunicorn-dlya-proda.md)
 
 ## FastAPI
 
