@@ -100,7 +100,8 @@
   * [Асинхронные запросы в Python](python/asinkhronnaya-rabota/asinkhronnye-zaprosy-v-python.md)
   * [Как использовать asyncio to\_thread()](python/asinkhronnaya-rabota/kak-ispolzovat-asyncio-to\_thread.md)
   * [Как использовать asyncio.gather()](python/asinkhronnaya-rabota/kak-ispolzovat-asyncio.gather.md)
-  * [Как остановить поток в Python](python/asinkhronnaya-rabota/kak-ostanovit-potok-v-python.md)
+* [Многопоточная работа](python/mnogopotochnaya-rabota/README.md)
+  * [Как остановить поток в Python](python/mnogopotochnaya-rabota/kak-ostanovit-potok-v-python.md)
 
 ## Requests, git, setup
 
