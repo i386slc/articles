@@ -553,10 +553,167 @@ while True:
 
 ### 5.3. Спать ноль секунд
 
+Вы можете добавить вызов time.sleep() на ноль секунд.
+
+Например:
+
+```python
+...
+# спать ноль секунд
+time.sleep(0)
+```
+
+На первый взгляд это может выглядеть как «нет операции» (noop), например. бесполезно и что компилятор может оптимизировать вызов и исключить его из существования.
+
+Напротив, это полезный трюк в конкурентном программировании.
+
+В частности, его можно использовать в потоках с интенсивными вычислениями или в потоках, которые в цикле выполняют интенсивную работу ЦП.
+
+Добавление спящего режима на ноль секунд будет сигнализировать операционной системе о том, что поток может быть переключен на другой поток. Операционная система может выбрать, учитывать этот переключатель или нет.
+
+Тем не менее, это может позволить потоку с интенсивными вычислениями на мгновение приостановиться и позволить другим потокам в приложении продолжить работу, возможно, улучшая общую производительность.
+
 ### 5.4. Рассмотрите возможность ожидания вместо сна
+
+Мы часто добавляем вызов time.sleep(), чтобы добавить задержку в приложение.
+
+Вместо этого мы можем захотеть заблокировать, ожидая.
+
+Этого можно добиться с помощью примитива параллелизма, такого как threading.Condition, и вызова функции wait() с таймаутом в секундах или без него. Вызывающий поток будет блокироваться так же, как и вызов sleep(), но разница в том, что другой поток может вызвать функцию notify() по условию, чтобы разбудить блокирующий поток.
+
+Например, мы можем ожидать выполнения условия с таймаутом:
+
+```python
+...
+# приобрести условие
+with condition:
+    # заблокировать на 10 секунд или до уведомления
+    condition.wait(timeout=10)
+```
+
+Мы можем ожидать выполнения многих примитивов параллелизма, таких как:
+
+* Блокировки взаимного исключения и повторные блокировки с помощью функции acquire().
+* События через wait().
+* Условия через wait().
+* Барьеры через wait().
+* Семафоры через acquire().
+
+Вы можете узнать больше о блокировке вызовов и ожидании в этом уроке:
+
+* [Вызов блокировки потока в Python](https://superfastpython.com/thread-blocking-call-in-python)
+
+Важно отметить, что при вызове функции wait(), такой как условие, блокировка примитива снимается до тех пор, пока поток не будет возобновлен. Это полезно, если другие потоки должны получить блокировку для продолжения работы программы.
 
 ### 5.5. Защита от сигналов терминала
 
+Вызов time.sleep() может быть прерван сигналом.
+
+Например, пользователь может нажать Control-C, чтобы отправить приложению сигнал прерывания SIGINT. Это может привести к тому, что спящий поток вызовет исключение и, в свою очередь, завершит процесс.
+
+Возможно, вы захотите защитить свой призыв ко сну от прерывания.
+
+Этого можно добиться, зарегистрировав обработчик сигнала и предприняв соответствующие действия, например, полностью закрыв приложение после завершения операции сна.
+
+Это предполагает сначала определение функции, которая будет вызываться при получении сигнала. Функция принимает номер сигнала и текущий кадр стека.
+
+```python
+# обработка sigint
+def custom_handler(signum, frame):
+    print('Got a SIGINT, ignoring for now...')
+```
+
+Затем обработчик можно зарегистрировать с помощью [функции signal.signal()](https://docs.python.org/3/library/signal.html#signal.signal), которая сначала определяет сигнал, на который нужно ответить, например [signal.SIGINT](https://docs.python.org/3/library/signal.html#signal.SIGINT) (прерывается нажатием Control-C), и функцию для вызова.
+
+Например:
+
+```python
+...
+# зарегистрировать обработчик сигнала для control-c
+signal(SIGINT, custom_handler)
+```
+
+Пример ниже демонстрирует это, обрабатывая сигналы Control-C, если они возникают во время сна, и предотвращая завершение программы.
+
+```python
+# SuperFastPython.com
+# пример защиты сна от сигнала прерывания
+from time import sleep
+from signal import signal
+from signal import SIGINT
+ 
+# обработка sigint
+def custom_handler(signum, frame):
+    print('Got a SIGINT, ignoring for now...')
+ 
+# зарегистрировать обработчик сигнала для control-c
+signal(SIGINT, custom_handler)
+# выод сообщения
+print('Sleeping for a moment')
+# блокировка
+sleep(5)
+print('All done')
+```
+
+Запущенная программа будет спать в течение пяти секунд и сообщит сообщение.
+
+Например:
+
+```
+Sleeping for a moment
+All done
+```
+
+Если вы нажмете Control-C во время работы программы, например, во время сна программа обработает сигнал SIGINT, сообщит сообщение и продолжит ждать завершения сна.
+
+Например:
+
+```
+Sleeping for a moment
+^C
+Got a SIGINT, ignoring for now...
+All done
+```
+
 ## 6. Дальнейшее чтение
 
+В этом разделе представлены дополнительные ресурсы, которые могут оказаться вам полезными.
+
+Книги по многопоточности Python
+
+* [Python Threading Jump-Start](https://superfastpython.com/ptj-further-reading), Jason Brownlee (**my book!**)
+* [Threading API Interview Questions](https://superfastpython.com/python-threading-interview-questions/)
+* [Threading Module API Cheat Sheet](https://marvelous-writer-6152.ck.page/088fc51f28)
+
+Я также рекомендую отдельные главы в следующих книгах:
+
+* [Python Cookbook](https://amzn.to/3MSFzBv), David Beazley and Brian Jones, 2013.
+  * See: _Chapter 12: Concurrency_
+* [Effective Python](https://amzn.to/3GpopJ1), Brett Slatkin, 2019.
+  * See: _Chapter 7: Concurrency and Parallelism_
+* [Python in a Nutshell](https://amzn.to/3m7SLGD), Alex Martelli, et al., 2017.
+  * See: _Chapter: 14: Threads and Processes_
+
+Путеводители
+
+* [Python Threading: The Complete Guide](https://superfastpython.com/threading-in-python/)
+* [Python ThreadPoolExecutor: The Complete Guide](https://superfastpython.com/threadpoolexecutor-in-python/)
+* [Python ThreadPool: The Complete Guide](https://superfastpython.com/threadpool-python/)
+
+API
+
+* [threading - Thread-based parallelism](https://docs.python.org/3/library/threading.html)
+* [queue — A synchronized queue class](https://docs.python.org/3/library/queue.html)
+
+Ссылки
+
+* [Thread (computing), Wikipedia.](https://en.wikipedia.org/wiki/Thread\_\(computing\))
+* [Process (computing), Wikipedia.](https://en.wikipedia.org/wiki/Process\_\(computing\))
+
 ## 7. Заключение
+
+Теперь вы знаете, как остановить поток.
+
+Есть вопросы?
+
+Задавайте свои вопросы в комментариях ниже, и я постараюсь ответить.
