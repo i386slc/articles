@@ -124,3 +124,140 @@ docker-compose up -d
 Эта команда создаст новый контейнер для statsd-exporter, который вы добавили ранее. Вы также можете проверить свой докер и найти там имя контейнера. После запуска докера вы можете перейти по адресу `http://127.0.0.1:9102`, чтобы проверить метрики, которые отправляются в statsd-exporter.
 
 <figure><img src="../../.gitbook/assets/airflow-grafana-4.webp" alt=""><figcaption></figcaption></figure>
+
+## Установка Prometheus
+
+Prometheus — это набор инструментов для мониторинга и оповещения системы с открытым исходным кодом. Prometheus сохраняет показатели в виде данных временных рядов. Добавьте Prometheus в свои службы Docker-Compose, добавив следующую строку кода:
+
+```yaml
+prometheus:
+    image: prom/prometheus
+    container_name: airflow-prometheus
+    ports:
+        - 9090:9090
+    volumes:
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+```
+
+Вам необходимо создать конфигурацию Prometheus, чтобы установить целевой парсинг. В этом случае вам нужно очистить statsd-exporter, который мы уже создали ранее. Создайте новый файл с именем `prometheus.yml` внутри папки prometheus вашего корневого проекта.
+
+```yaml
+scrape_configs:
+  - job_name: 'statsd-exporter'
+    static_configs:
+      - targets: ['airflow-statsd-exporter:9102']
+```
+
+Эта служба создаст контейнер с именем airflow-prometheus на порту 9090. После создания docker-compose вы можете получить доступ к Prometheus в своем веб-браузере, посетив `http://127.0.0.1:9090`. Вы увидите такой пользовательский интерфейс Prometheus:
+
+<figure><img src="../../.gitbook/assets/airflow-grafana-5.webp" alt=""><figcaption><p>Prometheus UI</p></figcaption></figure>
+
+В пользовательском интерфейсе Prometheus вы можете запрашивать свои показатели в поле выражения.
+
+## Установка Grafana
+
+После того, как вы настроили свой statsd-exporter и Prometheus, пришло время перейти к панели мониторинга. Grafana поможет вам анализировать ваши показатели с помощью настраиваемых графиков и интерактивной визуализации.
+
+Чтобы установить Grafana, добавьте еще один сервис в свой docker-compose.
+
+```yaml
+grafana:
+    image: grafana/grafana:latest
+    container_name: airflow-grafana
+    environment:
+        GF_SECURITY_ADMIN_USER: grafana
+        GF_SECURITY_ADMIN_PASSWORD: grafana
+    ports:
+      - 3000:3000
+```
+
+В этом параметре среды мы устанавливаем учетные данные по умолчанию для нашей Grafana.
+
+После создания вы можете получить доступ к Grafana через порт 3000 в локальном браузере. Войдите в систему, используя пользователя admin по умолчанию и пароль admin. Вы увидите панель управления Grafana вот так:
+
+<figure><img src="../../.gitbook/assets/airflow-grafana-6.webp" alt=""><figcaption><p>Главная страница Grafama</p></figcaption></figure>
+
+Перейдите к левой панели навигации и выберите "Explore".
+
+<figure><img src="../../.gitbook/assets/airflow-grafana-7.webp" alt=""><figcaption></figcaption></figure>
+
+На этой странице вы можете увидеть поле типа запроса, в этом поле вы можете запросить свои метрики. Но сейчас вы все еще не можете выбрать источник данных для своей Grafana. Следующим шагом будет добавление Prometheus в качестве источника данных Grafana.
+
+Создайте папку `grafana/provisioning/datasources/datasources-provision.yaml` и определите источник данных.
+
+```yaml
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://airflow-prometheus:9090
+```
+
+Приведенный выше код скажет Grafana сделать Prometheus источником данных. Кроме того, добавьте среду, чтобы установить путь подготовки.
+
+```yaml
+GF_PATHS_PROVISIONING: /grafana/provisioning
+```
+
+и тома для загрузки файла подготовки в образ докера.
+
+```yaml
+volumes:
+      - ./grafana/provisioning:/grafana/provisioning
+```
+
+После этого ваша полная конфигурация сервиса для Grafana будет выглядеть так:
+
+```yaml
+grafana:
+    image: grafana/grafana:latest
+    container_name: airflow-grafana
+    environment:
+        GF_SECURITY_ADMIN_USER: grafana
+        GF_SECURITY_ADMIN_PASSWORD: grafana
+        GF_PATHS_PROVISIONING: /grafana/provisioning
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/provisioning:/grafana/provisioning
+```
+
+Теперь с помощью этой конфигурации вы можете запрашивать метрики из Grafana Explore и готовы создать панель мониторинга.
+
+### Создание панели мониторинга
+
+Теперь вы можете перейти на страницу панели мониторинга и попробовать создать панель мониторинга Airflow.
+
+<figure><img src="../../.gitbook/assets/airflow-grafana-8.webp" alt=""><figcaption></figcaption></figure>
+
+Добавьте новую пустую панель, и вы будете перенаправлены на настройку панели.
+
+<figure><img src="../../.gitbook/assets/airflow-grafana-9.webp" alt=""><figcaption></figcaption></figure>
+
+В левом нижнем углу вы увидите раздел запросов query, измените источник данных на Prometheus и добавьте запрос. Например, я добавлю визуализацию размера Airflow DagBag.
+
+* Измените заголовок на "Dag Bag Size".
+* Добавьте запрос «airflow\_dagbag\_size» в поле запроса.
+* Измените тип визуализации в правом верхнем углу на "stats".
+* Применить изменение
+
+Ваша панель будет выглядеть так:
+
+<figure><img src="../../.gitbook/assets/airflow-grafana-10.webp" alt=""><figcaption></figcaption></figure>
+
+Итак, мы знаем, что в настоящее время размер нашего пакета сAirflow составляет 34. Вот как вы можете добавить новую панель на дашборд. Вы можете попробовать добавить новую панель и использовать другие визуализации. Используя все показатели, отправляемые из Airflow, вы можете создать панель мониторинга для мониторинга вашего Airflow.
+
+## Исходный код
+
+Полный исходный код для Docker Compose, Grafana и Prometheus можно найти здесь [https://github.com/riodpp/airflow-metrics-monitoring](https://github.com/riodpp/airflow-metrics-monitoring).
+
+## Краткое содержание
+
+Мониторинг Airflow с помощью Grafana может сэкономить наше время, чтобы понять, где произошел сбой, и быстро узнать, что не так с Airflow. Grafana предоставляет множество типов визуализации, позволяющих создать потрясающую и простую для понимания панель мониторинга. Кроме того, в Grafana есть система уведомлений, которая позволяет вам узнать о проблеме как можно скорее.
+
+## Рекомендации
+
+* [https://towardsdatascience.com/airflow-in-docker-metrics-reporting-83ad017a24eb](https://towardsdatascience.com/airflow-in-docker-metrics-reporting-83ad017a24eb)
+* [https://databand.ai/blog/everyday-data-engineering-monitoring-airflow-with-prometheus-statsd-and-grafana/](https://databand.ai/blog/everyday-data-engineering-monitoring-airflow-with-prometheus-statsd-and-grafana/)
+* [https://dev.to/kirklewis/metrics-with-prometheus-statsd-exporter-and-grafana-5145](https://dev.to/kirklewis/metrics-with-prometheus-statsd-exporter-and-grafana-5145)
