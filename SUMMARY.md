@@ -6,6 +6,7 @@
 
 * [Airflow](ocheredi-zadach-orkestratory/airflow/README.md)
   * [Краткое руководство: как запустить Apache Airflow с помощью docker-compose](ocheredi-zadach-orkestratory/airflow/kratkoe-rukovodstvo-kak-zapustit-apache-airflow-s-pomoshyu-docker-compose.md)
+  * [Мониторинг показателей Airflow с помощью Grafana](ocheredi-zadach-orkestratory/airflow/monitoring-pokazatelei-airflow-s-pomoshyu-grafana.md)
 * [Celery](ocheredi-zadach-orkestratory/celery/README.md)
   * [Создание удаленного воркера Celery для Flask с отдельной базой кода](ocheredi-zadach-orkestratory/celery/sozdanie-udalennogo-vorkera-celery-dlya-flask-s-otdelnoi-bazoi-koda.md)
   * [Как вызвать задачу Celery из другого приложения](ocheredi-zadach-orkestratory/celery/kak-vyzvat-zadachu-celery-iz-drugogo-prilozheniya.md)
