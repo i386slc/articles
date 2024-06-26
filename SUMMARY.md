@@ -134,3 +134,4 @@
 
 * [Prometheus](monitoring-logging/prometheus/README.md)
   * [Безопасность Node Exporter Prometheus](monitoring-logging/prometheus/bezopasnost-node-exporter-prometheus.md)
+  * [Безопасность Prometheus](monitoring-logging/prometheus/bezopasnost-prometheus.md)
