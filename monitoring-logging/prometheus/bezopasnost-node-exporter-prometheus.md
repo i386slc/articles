@@ -111,3 +111,95 @@ sudo systemctl restart node_exporter
 #### 7. Перейдите к `<SERVER_IP_ADDRESS>:9100`, если все в порядке, вы должны увидеть это.
 
 <figure><img src="../../.gitbook/assets/ne_prom_2.webp" alt=""><figcaption></figcaption></figure>
+
+### Теперь нам нужно обновить конфиги Prometheus, чтобы получать метрики от узлов с конечными точками HTTPS.
+
+#### 1. Скопируйте файл `node_exporter.crt` с сервера экспорта узлов на сервер Prometheus в /etc/prometheus/.
+
+#### 2. Обновите разрешение файла `node_exporter.crt`, чтобы Prometheus мог использовать
+
+```bash
+sudo chown prometheus:prometheus node_exporter.crt
+```
+
+<figure><img src="../../.gitbook/assets/ne_prom_3.webp" alt=""><figcaption></figcaption></figure>
+
+#### 3. Обновите конфигурацию для конкретной цели со схемой, изменения tls в конфигурации Prometheus, как показано ниже.
+
+```bash
+sudo nano /etc/prometheus/prometheus.yml
+```
+
+```yaml
+scheme: https
+tls_config:
+  ca_file: /etc/prometheus/node_exporter.crt
+  insecure_skip_verify: true
+```
+
+<figure><img src="../../.gitbook/assets/ne_prom_4.webp" alt=""><figcaption></figcaption></figure>
+
+### Настройка базовой аутентификации
+
+#### 1. Установите apache2-utils
+
+```bash
+sudo apt-get update && sudo apt install apache2-utils -y
+```
+
+#### 2. Создайте хешированный пароль
+
+```bash
+htpasswd -nBC 12 "" | tr -d ':\n'
+```
+
+#### 3. Откройте `/etc/node_exporter/config.yml` и поместите в него свое имя пользователя и пароль.
+
+```bash
+sudo nano /etc/node_exporter/config.yml
+```
+
+```yaml
+basic_auth_users:
+    YOUR_USERNAME: <YOUR_PASSWORD>
+   #other_username: its_password
+   #...
+```
+
+<figure><img src="../../.gitbook/assets/ne_prom_5.webp" alt=""><figcaption></figcaption></figure>
+
+#### 4. Перезапустите node\_exporter.
+
+```bash
+sudo systemctl restart node_exporter
+```
+
+<figure><img src="../../.gitbook/assets/ne_prom_6.webp" alt=""><figcaption></figcaption></figure>
+
+Теперь, если вы перейдете к целям в своем Prometheus, вы должны увидеть это
+
+<figure><img src="../../.gitbook/assets/ne_prom_7.webp" alt=""><figcaption></figcaption></figure>
+
+#### 5. Откройте `/etc/prometheus/prometheus.yml` и измените его, как показано на изображении.
+
+```bash
+sudo nano /etc/prometheus/prometheus.yml
+```
+
+```yaml
+basic_auth:
+  username: <YOUR_USERNAME>
+  password: <YOUR_PASSWORD>
+```
+
+<figure><img src="../../.gitbook/assets/ne_prom_8.webp" alt=""><figcaption></figcaption></figure>
+
+#### 7. Перезапустите Prometheus
+
+```bash
+sudo systemctl restart prometheus
+```
+
+Теперь, если вы перейдете к targets в своем Prometheus, вы должны увидеть это
+
+<figure><img src="../../.gitbook/assets/ne_prom_9.webp" alt=""><figcaption></figcaption></figure>
