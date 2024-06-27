@@ -158,3 +158,11 @@ sudo systemctl start prometheus
 Затем нажмите на статус и, наконец, на цель.
 
 <figure><img src="../../.gitbook/assets/prometheus_federation_7.png" alt=""><figcaption></figcaption></figure>
+
+Под заданием "federate" мы видим, что два наших сервера Prometheus были соответствующим образом удалены.
+
+Теперь мы можем перейти в браузер выражений и ввести команду up. Она должна отображать экземпляр с серверов Базеля и Цюриха.
+
+<figure><img src="../../.gitbook/assets/prometheus_federation_8.png" alt=""><figcaption></figcaption></figure>
+
+Теперь мы знаем, как настроить HA, которую можно легко совместить с Federation. Одно другому не мешает. Мяч на вашей площадке.
