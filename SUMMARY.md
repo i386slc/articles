@@ -136,3 +136,4 @@
   * [Безопасность Node Exporter Prometheus](monitoring-logging/prometheus/bezopasnost-node-exporter-prometheus.md)
   * [Безопасность Prometheus](monitoring-logging/prometheus/bezopasnost-prometheus.md)
   * [Масштабирование мониторинга Kubernetes с помощью Prometheus Federation](monitoring-logging/prometheus/masshtabirovanie-monitoringa-kubernetes-s-pomoshyu-prometheus-federation.md)
+  * [Prometheus Federation ⏤ Руководство по масштабированию Prometheus](monitoring-logging/prometheus/prometheus-federation-rukovodstvo-po-masshtabirovaniyu-prometheus.md)
