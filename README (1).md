@@ -16,7 +16,7 @@ Docker также позволяет пользователям монтиров
 
 Из этого туториала вы узнаете, как создавать и использовать тома NFS Docker.
 
-<figure><img src="../../.gitbook/assets/nfs-1.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-1.png" alt=""><figcaption></figcaption></figure>
 
 ## Предварительные условия
 
@@ -56,7 +56,7 @@ docker volume create --driver local \
 
 Успешно выполненная команда выводит имя тома.
 
-<figure><img src="../../.gitbook/assets/nfs-2.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-2.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Прежде чем создавать том NFS, убедитесь, что [IP-адрес](https://phoenixnap.com/kb/how-to-find-ip-address-linux) вашей хост-системы Docker указан в файле `/etc/exports` на сервере.
@@ -70,7 +70,7 @@ docker volume ls
 
 В выходных данных указан созданный вами том.
 
-<figure><img src="../../.gitbook/assets/nfs-3.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-3.png" alt=""><figcaption></figcaption></figure>
 
 Проверьте том с помощью подкоманды inspect.
 
@@ -80,7 +80,7 @@ docker volume inspect [volume-name]
 
 Вывод показывает конфигурацию тома.
 
-<figure><img src="../../.gitbook/assets/nfs-4.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-4.png" alt=""><figcaption></figcaption></figure>
 
 ## Монтируем NFS в контейнер
 
@@ -100,7 +100,7 @@ sudo apt install nfs-common
 
 Подтвердите, что вы хотите установить пакет, и дождитесь завершения установки.
 
-<figure><img src="../../.gitbook/assets/nfs-5.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-5.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Если вы используете YUM или RPM для управления пакетами, пакет DNS-клиента называется nfs-utils.
@@ -117,7 +117,7 @@ docker run -d -it \
 
 В приведенном ниже примере том NFS с именем nfs-volume монтируется в каталог /mnt контейнера.
 
-<figure><img src="../../.gitbook/assets/nfs-6.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-6.png" alt=""><figcaption></figcaption></figure>
 
 Подтвердите, что том был успешно смонтирован, с помощью команды `docker inspect`.
 
@@ -127,7 +127,7 @@ docker inspect [container-name]
 
 Раздел выходных данных Mounts содержит тома, смонтированные в контейнер.
 
-<figure><img src="../../.gitbook/assets/nfs-7.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-7.png" alt=""><figcaption></figcaption></figure>
 
 Войдите в оболочку bash контейнерной среды с помощью `docker exec`:
 
@@ -135,7 +135,7 @@ docker inspect [container-name]
 docker exec -it [container-name] /bin/bash
 ```
 
-<figure><img src="../../.gitbook/assets/nfs-8.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-8.png" alt=""><figcaption></figcaption></figure>
 
 Выведите содержимое каталога `/mnt`.
 
@@ -145,7 +145,7 @@ ls /mnt
 
 В выводе показаны файлы, размещенные в каталоге `/mnt/nfsdir` на сервере.
 
-<figure><img src="../../.gitbook/assets/nfs-9.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-9.png" alt=""><figcaption></figcaption></figure>
 
 Если вы создадите файл внутри контейнера Docker, он также будет доступен в исходном каталоге на сервере. Для проверки используйте [команду touch](https://phoenixnap.com/kb/touch-command-in-linux), чтобы создать пустой файл в каталоге `/mnt`.
 
@@ -155,7 +155,7 @@ touch /mnt/docker1.txt
 
 На сервере перейдите к каталогу, которым вы поделились, и перечислите его содержимое. Появится файл, созданный в контейнере Docker.
 
-<figure><img src="../../.gitbook/assets/nfs-10.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/nfs-10.png" alt=""><figcaption></figcaption></figure>
 
 ## Монтирование томов NFS с помощью Docker Compose
 

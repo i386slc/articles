@@ -80,7 +80,7 @@
 * [Graylog](docker/graylog/README.md)
   * [Как запустить сервер Graylog в контейнерах Docker](docker/graylog/kak-zapustit-server-graylog-v-konteinerakh-docker.md)
 * [NFS](docker/nfs/README.md)
-  * [NFS Docker Volumes: как создавать и использовать](docker/nfs/nfs-docker-volumes-kak-sozdavat-i-ispolzovat.md)
+  * [NFS Docker Volumes: как создавать и использовать](<README (1).md>)
 
 ## DRF
 
