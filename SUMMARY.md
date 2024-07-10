@@ -1,10 +1,8 @@
 # Table of contents
 
-* [Главная](README.md)
-
 ## Очереди задач, оркестраторы
 
-* [Airflow](ocheredi-zadach-orkestratory/airflow/README.md)
+* [Airflow](README.md)
   * [Краткое руководство: как запустить Apache Airflow с помощью docker-compose](ocheredi-zadach-orkestratory/airflow/kratkoe-rukovodstvo-kak-zapustit-apache-airflow-s-pomoshyu-docker-compose.md)
   * [Мониторинг показателей Airflow с помощью Grafana](ocheredi-zadach-orkestratory/airflow/monitoring-pokazatelei-airflow-s-pomoshyu-grafana.md)
 * [Celery](ocheredi-zadach-orkestratory/celery/README.md)
@@ -81,6 +79,8 @@
   * [Docker ARG, ENV и .env — полное руководство](docker/env-arg/docker-arg-env-i-.env-polnoe-rukovodstvo.md)
 * [Graylog](docker/graylog/README.md)
   * [Как запустить сервер Graylog в контейнерах Docker](docker/graylog/kak-zapustit-server-graylog-v-konteinerakh-docker.md)
+* [NFS](docker/nfs/README.md)
+  * [NFS Docker Volumes: как создавать и использовать](docker/nfs/nfs-docker-volumes-kak-sozdavat-i-ispolzovat.md)
 
 ## DRF
 
