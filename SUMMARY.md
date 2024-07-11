@@ -80,6 +80,7 @@
 * [Graylog](docker/graylog/README.md)
   * [Как запустить сервер Graylog в контейнерах Docker](docker/graylog/kak-zapustit-server-graylog-v-konteinerakh-docker.md)
 * [NFS](docker/nfs/README.md)
+  * [Что такое сетевая файловая система NFS?](docker/nfs/chto-takoe-setevaya-failovaya-sistema-nfs.md)
   * [Установка NFS-сервера в Ubuntu](docker/nfs/ustanovka-nfs-servera-v-ubuntu.md)
   * [NFS Docker Volumes: как создавать и использовать](<README (1).md>)
   * [Монтирование общих ресурсов NFS внутри контейнера Docker](docker/nfs/montirovanie-obshikh-resursov-nfs-vnutri-konteinera-docker.md)
