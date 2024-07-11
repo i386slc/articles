@@ -82,6 +82,7 @@
 * [NFS](docker/nfs/README.md)
   * [Установка NFS-сервера в Ubuntu](docker/nfs/ustanovka-nfs-servera-v-ubuntu.md)
   * [NFS Docker Volumes: как создавать и использовать](<README (1).md>)
+  * [Монтирование общих ресурсов NFS внутри контейнера Docker](docker/nfs/montirovanie-obshikh-resursov-nfs-vnutri-konteinera-docker.md)
 
 ## DRF
 
