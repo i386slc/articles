@@ -101,6 +101,8 @@
 
 ## Python
 
+* [JSON](python/json/README.md)
+  * [Преобразование данных JSON в пользовательский объект Python](python/json/preobrazovanie-dannykh-json-v-polzovatelskii-obekt-python.md)
 * [Декораторы, дескрипторы](python/dekoratory-deskriptory/README.md)
   * [Когда декоратор встречает дескриптор](python/dekoratory-deskriptory/kogda-dekorator-vstrechaet-deskriptor.md)
   * [Класс декоратора Python для оформления автономных функций и методов объектов](python/dekoratory-deskriptory/klass-dekoratora-python-dlya-oformleniya-avtonomnykh-funkcii-i-metodov-obektov.md)
